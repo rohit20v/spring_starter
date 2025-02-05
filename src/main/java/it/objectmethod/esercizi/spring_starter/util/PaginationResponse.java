@@ -1,7 +1,6 @@
 package it.objectmethod.esercizi.spring_starter.util;
 
 import lombok.Data;
-import lombok.Getter;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

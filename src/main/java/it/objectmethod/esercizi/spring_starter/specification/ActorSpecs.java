@@ -11,12 +11,12 @@ import java.util.Date;
 
 public class ActorSpecs {
     private static Integer name;
+
     public static Specification<Actor> toSpecification(ActorDTO actorDTO) {
         return Specification.
                 <Actor>where(null)
                 .and(findActorsFilmsById(name));
     }
-
 
 
     public static Specification<Actor> findByAllColumns(String name, String surname, Date dob, String city) {

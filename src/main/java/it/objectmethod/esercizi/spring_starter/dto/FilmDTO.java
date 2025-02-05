@@ -1,7 +1,5 @@
 package it.objectmethod.esercizi.spring_starter.dto;
 
-import it.objectmethod.esercizi.spring_starter.entity.Actor;
-import it.objectmethod.esercizi.spring_starter.entity.Director;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

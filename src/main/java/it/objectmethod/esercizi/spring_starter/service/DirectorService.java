@@ -2,20 +2,13 @@ package it.objectmethod.esercizi.spring_starter.service;
 
 import it.objectmethod.esercizi.spring_starter.dto.DirectorDTO;
 import it.objectmethod.esercizi.spring_starter.entity.Director;
-import it.objectmethod.esercizi.spring_starter.entity.Film;
 import it.objectmethod.esercizi.spring_starter.mapper.DirectorMapper;
-import it.objectmethod.esercizi.spring_starter.mapper.FilmMapper;
 import it.objectmethod.esercizi.spring_starter.repository.DirectorRepository;
-import it.objectmethod.esercizi.spring_starter.repository.FilmRepository;
 import it.objectmethod.esercizi.spring_starter.specification.DirectorSpecs;
 import it.objectmethod.esercizi.spring_starter.specification.GeneralSpec;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -73,10 +66,10 @@ public class DirectorService {
                 directorRepository.findAll(
                         Specification.where(allDirectorsWithFilteredName).or(allDirectorsWithFilteredSurname)
                 )
-            );
+        );
     }
 
-    public List<DirectorDTO> findByAllParams(Map<String, String> map){
+    public List<DirectorDTO> findByAllParams(Map<String, String> map) {
         return directorMapper.mapToDtos(
                 directorRepository.findAll(
                         GeneralSpec.<Director>findByAllParams(map)

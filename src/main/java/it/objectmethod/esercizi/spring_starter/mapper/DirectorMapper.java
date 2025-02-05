@@ -15,7 +15,7 @@ public class DirectorMapper implements BasicMethodMapping<DirectorDTO, Director>
 
     @Override
     public DirectorDTO mapToDto(Director director) {
-        List<Integer> films = new ArrayList<Integer>();
+        List<Integer> films;
         if (director != null && director.getFilms() != null) {
             films = director.getFilms().stream()
                     .map(Film::getId)
@@ -37,10 +37,10 @@ public class DirectorMapper implements BasicMethodMapping<DirectorDTO, Director>
     public Director mapToEntity(DirectorDTO directorDTO) {
 
         List<Film> list = new ArrayList<Film>();
-        if (directorDTO.getFilm() != null){
+        if (directorDTO.getFilm() != null) {
             list = directorDTO.getFilm().stream()
-                .map(v -> Film.builder().id(v).build())
-                .toList();
+                    .map(v -> Film.builder().id(v).build())
+                    .toList();
         }
         return Director.builder()
                 .id(directorDTO.getId())

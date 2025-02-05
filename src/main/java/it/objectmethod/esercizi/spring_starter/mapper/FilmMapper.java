@@ -1,6 +1,5 @@
 package it.objectmethod.esercizi.spring_starter.mapper;
 
-import it.objectmethod.esercizi.spring_starter.dto.ActorDTO;
 import it.objectmethod.esercizi.spring_starter.dto.FilmDTO;
 import it.objectmethod.esercizi.spring_starter.entity.Actor;
 import it.objectmethod.esercizi.spring_starter.entity.Film;

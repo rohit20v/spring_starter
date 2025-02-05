@@ -2,7 +2,6 @@ package it.objectmethod.esercizi.spring_starter.controller;
 
 import it.objectmethod.esercizi.spring_starter.dto.ActorDTO;
 import it.objectmethod.esercizi.spring_starter.dto.ActorFilmDTO;
-import it.objectmethod.esercizi.spring_starter.dto.DirectorDTO;
 import it.objectmethod.esercizi.spring_starter.mapper.ActorMapper;
 import it.objectmethod.esercizi.spring_starter.service.ActorService;
 import it.objectmethod.esercizi.spring_starter.util.PaginationResponse;
@@ -19,7 +18,7 @@ import java.util.Map;
 public class ActorController {
     private final ActorService actorService;
 
-    public ActorController(final ActorService actorService, ActorMapper actorMapper) {
+    public ActorController(final ActorService actorService) {
         this.actorService = actorService;
     }
 
@@ -35,7 +34,7 @@ public class ActorController {
 
     @GetMapping("/allPage")
     public PaginationResponse<ActorDTO> getPage(@RequestParam(defaultValue = "0") final Integer page,
-                                                @RequestParam(defaultValue =  "2") final Integer size) {
+                                                @RequestParam(defaultValue = "2") final Integer size) {
         return actorService.getPage(page, size);
     }
 
