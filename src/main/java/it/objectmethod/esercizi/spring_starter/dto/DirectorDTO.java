@@ -1,7 +1,7 @@
 package it.objectmethod.esercizi.spring_starter.dto;
 
 
-import jakarta.validation.constraints.NotNull;
+import it.objectmethod.esercizi.spring_starter.annotation.CustomAnnotation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,16 +16,18 @@ import java.util.List;
 @Builder
 @Data
 public class DirectorDTO {
+//    @NotNull(groups = {PUT.class, Default.class})
     private Integer id;
 
-    @NotNull
+//    @NotNull
+    @CustomAnnotation(message = "ain't uppercase")
     private String name;
 
-    @NotNull
+//    @NotNull
     private String surname;
 
-    @NotNull
+//    @NotNull
     private String city;
 
-    private List<Integer> film = new ArrayList<>();
+    private List<Integer> films = new ArrayList<>();
 }

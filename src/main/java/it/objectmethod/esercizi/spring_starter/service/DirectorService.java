@@ -3,9 +3,11 @@ package it.objectmethod.esercizi.spring_starter.service;
 import it.objectmethod.esercizi.spring_starter.dto.DirectorDTO;
 import it.objectmethod.esercizi.spring_starter.entity.Director;
 import it.objectmethod.esercizi.spring_starter.mapper.DirectorMapper;
+import it.objectmethod.esercizi.spring_starter.mapper.DirectorMapperWithMapstruct;
 import it.objectmethod.esercizi.spring_starter.repository.DirectorRepository;
 import it.objectmethod.esercizi.spring_starter.specification.DirectorSpecs;
 import it.objectmethod.esercizi.spring_starter.specification.GeneralSpec;
+import org.springframework.boot.actuate.web.mappings.MappingsEndpoint;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -17,21 +19,25 @@ public class DirectorService {
     private final DirectorRepository directorRepository;
     private final DirectorMapper directorMapper;
 
-    public DirectorService(DirectorRepository directorRepository, DirectorMapper directorMapper) {
+    private final DirectorMapperWithMapstruct directorMapperWithMapstruct;
+
+    public DirectorService(DirectorRepository directorRepository, DirectorMapper directorMapper, DirectorMapperWithMapstruct directorMapperWithMapstruct) {
         this.directorRepository = directorRepository;
         this.directorMapper = directorMapper;
+
+        this.directorMapperWithMapstruct = directorMapperWithMapstruct;
     }
 
     public DirectorDTO getDirectorById(Integer id) {
-        return directorMapper.mapToDto(directorRepository.getDirectorsById(id));
+        return directorMapperWithMapstruct.toDTO(directorRepository.getDirectorsById(id));
     }
 
     public List<DirectorDTO> getAllDirectors() {
-        return directorMapper.mapToDtos(directorRepository.findAll());
+        return directorMapperWithMapstruct.toDTOs(directorRepository.findAll());
     }
 
     public List<DirectorDTO> getAllDirectorsBySpecification(String name, String surname, String city) {
-        return directorMapper.mapToDtos(
+        return directorMapperWithMapstruct.toDTOs(
                 directorRepository.findAll(
                         DirectorSpecs.findByAllColumns(name, surname, city)
                 )
@@ -39,7 +45,7 @@ public class DirectorService {
     }
 
     public List<DirectorDTO> getAllDirectorsBySpecification(DirectorDTO dto) {
-        return directorMapper.mapToDtos(
+        return directorMapperWithMapstruct.toDTOs(
                 directorRepository.findAll(
                         DirectorSpecs.findByAllColumns(dto)
                 )
@@ -52,9 +58,9 @@ public class DirectorService {
     }
 
     public DirectorDTO save(DirectorDTO dto) {
-        Director entity = directorMapper.mapToEntity(dto);
+        Director entity = directorMapperWithMapstruct.toEntity(dto);
         directorRepository.save(entity);
-        return directorMapper.mapToDto(entity);
+        return directorMapperWithMapstruct.toDTO(entity);
     }
 
 
@@ -62,7 +68,7 @@ public class DirectorService {
         Specification<Director> allDirectorsWithFilteredName = DirectorRepository.Specs.findAllDirectorsWithFilteredName(dto.getName());
         Specification<Director> allDirectorsWithFilteredSurname = DirectorRepository.Specs.findAllDirectorsWithFilteredSurname(dto.getSurname());
 
-        return directorMapper.mapToDtos(
+        return directorMapperWithMapstruct.toDTOs(
                 directorRepository.findAll(
                         Specification.where(allDirectorsWithFilteredName).or(allDirectorsWithFilteredSurname)
                 )
@@ -70,9 +76,9 @@ public class DirectorService {
     }
 
     public List<DirectorDTO> findByAllParams(Map<String, String> map) {
-        return directorMapper.mapToDtos(
+        return directorMapperWithMapstruct.toDTOs(
                 directorRepository.findAll(
-                        GeneralSpec.<Director>findByAllParams(map)
+                        GeneralSpec.findByAllParams(map)
                 )
         );
     }

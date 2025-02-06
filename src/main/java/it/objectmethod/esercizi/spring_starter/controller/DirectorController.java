@@ -4,6 +4,7 @@ import it.objectmethod.esercizi.spring_starter.dto.DirectorDTO;
 import it.objectmethod.esercizi.spring_starter.service.DirectorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class DirectorController {
     }
 
     @GetMapping("dto/by")
-    public ResponseEntity<List<DirectorDTO>> getAllDirectorsBySpecificationWithDTO(final DirectorDTO dto) {
+    public ResponseEntity<List<DirectorDTO>> getAllDirectorsBySpecificationWithDTO(@Validated(PUT.class) final DirectorDTO dto) {
         if (directorService.getAllDirectors().isEmpty()) return ResponseEntity.notFound().build();
 
         return ResponseEntity.ok(directorService.getAllDirectorsBySpecification(dto));
@@ -86,5 +87,9 @@ public class DirectorController {
         if (dto == null) return ResponseEntity.badRequest().build();
         DirectorDTO newDto = directorService.update(dto);
         return ResponseEntity.ok(newDto);
+    }
+
+    public interface PUT {
+
     }
 }

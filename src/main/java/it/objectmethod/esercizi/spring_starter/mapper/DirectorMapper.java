@@ -25,7 +25,7 @@ public class DirectorMapper implements BasicMethodMapping<DirectorDTO, Director>
                     .name(director.getName())
                     .surname(director.getSurname())
                     .city(director.getCity())
-                    .film(films)
+                    .films(films)
                     .build();
         }
 
@@ -37,8 +37,8 @@ public class DirectorMapper implements BasicMethodMapping<DirectorDTO, Director>
     public Director mapToEntity(DirectorDTO directorDTO) {
 
         List<Film> list = new ArrayList<Film>();
-        if (directorDTO.getFilm() != null) {
-            list = directorDTO.getFilm().stream()
+        if (directorDTO.getFilms() != null) {
+            list = directorDTO.getFilms().stream()
                     .map(v -> Film.builder().id(v).build())
                     .toList();
         }
