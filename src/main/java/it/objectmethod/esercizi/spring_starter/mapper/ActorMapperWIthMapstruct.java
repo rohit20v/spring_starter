@@ -12,8 +12,7 @@ public interface ActorMapperWIthMapstruct extends BaseMapstructMapping<ActorDTO,
     @Mapping(target = "films", source = "films", qualifiedByName = "toIdFilm")
     ActorDTO toDTO(Actor actor);
 
-
-    @Mapping(target = "films", ignore = true)
+@Mapping(target = "films", source = "films", qualifiedByName = "toFilm")
     Actor toEntity(ActorDTO actorDTO);
 
     @Named(value = "toIdFilm")
@@ -22,7 +21,9 @@ public interface ActorMapperWIthMapstruct extends BaseMapstructMapping<ActorDTO,
     }
 
 
-
-
+    @Named(value = "toFilm")
+    default Film toFilm(Integer id){
+        return Film.builder().id(id).build();
+    }
 
 }

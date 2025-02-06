@@ -1,17 +1,15 @@
 package it.objectmethod.esercizi.spring_starter.dto;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ActorFilmDTO {
-    @NotNull
-    ActorDTO actorDTO;
-
-    @NotNull
-    FilmDTO filmDTO;
+    private Integer id_film;
+    private Integer id_actor;
 }
