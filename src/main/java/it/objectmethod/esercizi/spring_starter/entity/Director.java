@@ -29,6 +29,6 @@ public class Director {
     @Column(name = "city", nullable = false)
     private String city;
 
-    @OneToMany(mappedBy = "director")
+    @OneToMany(mappedBy = "director", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Film> films = new ArrayList<Film>();
 }
