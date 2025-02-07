@@ -30,5 +30,5 @@ public class Director {
     private String city;
 
     @OneToMany(mappedBy = "director", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<Film> films = new ArrayList<Film>();
+    private List<Film> films = new ArrayList<>();
 }
