@@ -7,7 +7,6 @@ import it.objectmethod.esercizi.spring_starter.mapper.DirectorMapperWithMapstruc
 import it.objectmethod.esercizi.spring_starter.repository.DirectorRepository;
 import it.objectmethod.esercizi.spring_starter.specification.DirectorSpecs;
 import it.objectmethod.esercizi.spring_starter.specification.GeneralSpec;
-import org.springframework.boot.actuate.web.mappings.MappingsEndpoint;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +51,6 @@ public class DirectorService {
         );
     }
 
-
     public void deleteDirectorById(Integer id) {
         directorRepository.deleteById(id);
     }
@@ -62,7 +60,6 @@ public class DirectorService {
         directorRepository.save(entity);
         return directorMapperWithMapstruct.toDTO(entity);
     }
-
 
     public List<DirectorDTO> findAllDirectorsFilteredUsingSpecs(DirectorDTO dto) {
         Specification<Director> allDirectorsWithFilteredName = DirectorRepository.Specs.findAllDirectorsWithFilteredName(dto.getName());

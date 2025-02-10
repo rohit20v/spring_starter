@@ -23,5 +23,4 @@ public class ActorFilm {
     @Id
     @Column(name = "id_actor")
     private Integer id_actor;
-
 }

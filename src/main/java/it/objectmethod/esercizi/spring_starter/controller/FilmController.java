@@ -94,12 +94,12 @@ public class FilmController {
     public ResponseEntity<?> get(@RequestParam final Map<String, String> map) {
         if (map.isEmpty()) return this.get();
         List<FilmDTO> queryResult = filmService.findByAllParams(map);
-        if (queryResult == null || queryResult.isEmpty())
+        if (queryResult == null || queryResult.isEmpty()) {
             return new ResponseEntity<>("No director found", HttpStatus.NOT_FOUND);
+        }
 
         return new ResponseEntity<List<FilmDTO>>(queryResult, HttpStatus.FOUND);
     }
-
 
     @PutMapping("/update")
     public ResponseEntity<FilmDTO> update(@RequestBody FilmDTO dto) {

@@ -18,7 +18,6 @@ public class ActorSpecs {
                 .and(findActorsFilmsById(name));
     }
 
-
     public static Specification<Actor> findByAllColumns(String name, String surname, Date dob, String city) {
         return (root, query, criteriaBuilder) -> {
             if (name == null && surname == null && dob == null && city == null)

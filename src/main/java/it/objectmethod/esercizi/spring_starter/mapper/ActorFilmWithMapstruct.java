@@ -1,11 +1,9 @@
 package it.objectmethod.esercizi.spring_starter.mapper;
 
-import it.objectmethod.esercizi.spring_starter.entity.ActorFilm;
 import it.objectmethod.esercizi.spring_starter.dto.ActorFilmDTO;
+import it.objectmethod.esercizi.spring_starter.entity.ActorFilm;
 import it.objectmethod.esercizi.spring_starter.util.BaseMapstructMapping;
-import org.mapstruct.Builder;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -16,4 +14,9 @@ public interface ActorFilmWithMapstruct extends BaseMapstructMapping<ActorFilmDT
 
     @Override
     ActorFilmDTO toDTO(ActorFilm actorFilm);
+
+    @AfterMapping
+    default void afterToDto(ActorFilm af, @MappingTarget ActorFilmDTO dto) {
+        // todo your code
+    }
 }

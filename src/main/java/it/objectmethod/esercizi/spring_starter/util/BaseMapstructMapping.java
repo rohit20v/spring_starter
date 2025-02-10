@@ -1,7 +1,8 @@
 package it.objectmethod.esercizi.spring_starter.util;
 
 import java.util.List;
-public interface BaseMapstructMapping <DTO, ENTITY>{
+
+public interface BaseMapstructMapping<DTO, ENTITY> {
 
     DTO toDTO(ENTITY entity);
 

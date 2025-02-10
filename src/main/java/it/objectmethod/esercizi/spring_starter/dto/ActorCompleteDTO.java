@@ -1,36 +1,37 @@
 package it.objectmethod.esercizi.spring_starter.dto;
 
-
 import com.fasterxml.jackson.annotation.JsonView;
-import it.objectmethod.esercizi.spring_starter.annotation.CustomAnnotation;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
 @JsonView({FilmDTO.MinimalReq.class})
-public class DirectorDTO {
-    //    @NotNull(groups = {PUT.class, Default.class})
+public class ActorCompleteDTO {
     private Integer id;
 
-    //    @NotNull
-    @CustomAnnotation(message = "ain't uppercase")
+    @NotNull
     private String name;
 
-    //    @NotNull
+    @NotNull
     private String surname;
 
-    //    @NotNull
-    private String city;
-    @JsonView({FilmDTO.Extra.class})
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dob;
 
-    private List<Integer> films = new ArrayList<>();
+    @NotNull
+    private String city;
+
+    private List<FilmDTO> films = new ArrayList<>();
 }

@@ -42,7 +42,6 @@ public class DirectorController {
         return ResponseEntity.ok(directorService.getAllDirectorsBySpecification(dto));
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<DirectorDTO> getDirectorById(@PathVariable final Integer id) {
         if (directorService.getDirectorById(id) == null) return ResponseEntity.notFound().build();

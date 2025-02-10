@@ -15,7 +15,6 @@ public interface FilmMapperWithMapstruct extends BaseMapstructMapping<FilmDTO, F
     @Mapping(target = "actor", source = "actors", qualifiedByName = "toActor")
     Film toEntity(FilmDTO filmDTO);
 
-
     @Override
     @Mapping(target = "actors", source = "actor", qualifiedByName = "toIdActor")
     FilmDTO toDTO(Film film);
@@ -24,7 +23,6 @@ public interface FilmMapperWithMapstruct extends BaseMapstructMapping<FilmDTO, F
     default Integer toIdActor(Actor actor) {
         return actor.getId();
     }
-
 
     @Named(value = "toActor")
     default Actor toActor(Integer id) {

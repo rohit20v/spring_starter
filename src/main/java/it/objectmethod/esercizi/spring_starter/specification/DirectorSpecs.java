@@ -21,7 +21,6 @@ public class DirectorSpecs {
 
     }
 
-
     public static Specification<Director> findByAllColumns(DirectorDTO dto) {
 
         return (root, query, criteriaBuilder) -> {

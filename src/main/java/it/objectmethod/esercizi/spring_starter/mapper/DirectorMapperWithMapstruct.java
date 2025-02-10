@@ -12,7 +12,6 @@ import org.mapstruct.*;
         unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface DirectorMapperWithMapstruct extends BaseMapstructMapping<DirectorDTO, Director> {
 
-
     @Override
     @Mapping(target = "films", source = "films", qualifiedByName = "toIdFilm")
     DirectorDTO toDTO(Director director);
@@ -27,7 +26,7 @@ public interface DirectorMapperWithMapstruct extends BaseMapstructMapping<Direct
     }
 
     @Named(value = "toFilm")
-    default Film toFilm(Integer id){
+    default Film toFilm(Integer id) {
         return Film.builder().id(id).build();
     }
 }

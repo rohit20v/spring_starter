@@ -83,11 +83,7 @@ public class FilmService {
     }
 
     public List<FilmDTO> getFilmsUsingSpecification(FilmDTO filmDTO) {
-        return filmMapperWithMapstruct.toDTOs(
-                filmRepository.findAll(
-                        FilmSpecs.findByAllColumns(filmDTO)
-                )
-        );
+        return filmMapperWithMapstruct.toDTOs(filmRepository.findAll(FilmSpecs.findByAllColumns(filmDTO)));
     }
 
     public Page<FilmDTO> getFilmPagesUsingSpecification(
@@ -115,8 +111,8 @@ public class FilmService {
 
     public FilmDTO save(FilmDTO dto) {
         Film entity = filmMapperWithMapstruct.toEntity(dto);
-        filmRepository.save(entity);
-        return filmMapperWithMapstruct.toDTO(entity);
+        Film save = filmRepository.save(entity);
+        return filmMapperWithMapstruct.toDTO(save);
     }
 
     @Transient

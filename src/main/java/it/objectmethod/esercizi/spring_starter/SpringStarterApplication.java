@@ -13,7 +13,6 @@ public class SpringStarterApplication {
         SpringApplication.run(SpringStarterApplication.class, args);
     }
 
-
     @Bean
     CommandLineRunner logAllBeans(ApplicationContext context) {
         return args -> {

@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 
 import java.time.Instant;
 
-public class BasicResponseException extends RuntimeException {
+public final class BasicResponseException extends RuntimeException {
     private String message;
     @Getter
     private final Instant timestamp;
@@ -30,10 +30,8 @@ public class BasicResponseException extends RuntimeException {
     }
 
     public static BasicResponseException badRequestException(String message, Object... params) {
-        return new BasicResponseException(String
-                .format(message, params), HttpStatus.BAD_REQUEST);
+        return new BasicResponseException(String.format(message, params), HttpStatus.BAD_REQUEST);
     }
-
 
 }
 

@@ -1,12 +1,15 @@
 package it.objectmethod.esercizi.spring_starter.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import it.objectmethod.esercizi.spring_starter.dto.ActorCompleteDTO;
 import it.objectmethod.esercizi.spring_starter.dto.ActorDTO;
-import it.objectmethod.esercizi.spring_starter.dto.ActorFilmDTO;
-import it.objectmethod.esercizi.spring_starter.mapper.ActorMapper;
+import it.objectmethod.esercizi.spring_starter.dto.FilmDTO;
 import it.objectmethod.esercizi.spring_starter.service.ActorService;
 import it.objectmethod.esercizi.spring_starter.util.PaginationResponse;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -53,7 +56,7 @@ public class ActorController {
     @GetMapping("/by")
     public ResponseEntity<List<ActorDTO>> findByItemBy(@RequestParam(required = false) final String name,
                                                        @RequestParam(required = false) final String surname,
-                                                       @RequestParam(required = false) final Date dob,
+                                                       @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") final Date dob,
                                                        @RequestParam(required = false) final String city) {
         return ResponseEntity.ok(actorService.findAllBySpecs(name, surname, dob, city));
     }
@@ -64,13 +67,13 @@ public class ActorController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<ActorDTO> addActor(@RequestBody ActorDTO actorDTO) {
+    public ResponseEntity<ActorDTO> addActor(@RequestBody @Validated ActorDTO actorDTO) {
         if (actorDTO == null) return ResponseEntity.badRequest().build();
         ActorDTO newDto = actorService.save(actorDTO);
         return ResponseEntity.ok(newDto);
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteActor(@PathVariable final Integer id) {
         actorService.deleteActorById(id);
         return ResponseEntity.ok("Actor deleted successfully");
@@ -96,20 +99,25 @@ public class ActorController {
         return ResponseEntity.ok(newDto);
     }
 
-    @GetMapping("/params/specs")
-    public ResponseEntity<?> get(@RequestParam final Map<String, String> map) {
-        if (map.isEmpty()) return new ResponseEntity<>(this.getAll(), HttpStatus.OK);
-        List<ActorDTO> queryResult = actorService.findByAllParams(map);
-        if (queryResult == null || queryResult.isEmpty())
-            return new ResponseEntity<>("No director found", HttpStatus.NOT_FOUND);
+//    @GetMapping("/params/specs")
+//    public ResponseEntity<?> get(@RequestParam final Map<String, String> map) {
+//        if (map.isEmpty()) return new ResponseEntity<>(this.getAll(), HttpStatus.OK);
+//        List<ActorDTO> queryResult = actorService.findByAllParams(map);
+//        if (queryResult == null || queryResult.isEmpty())
+//            return new ResponseEntity<>("No director found", HttpStatus.NOT_FOUND);
+//
+//        return new ResponseEntity<List<ActorDTO>>(queryResult, HttpStatus.FOUND);
+//    }
 
-        return new ResponseEntity<List<ActorDTO>>(queryResult, HttpStatus.FOUND);
+    @GetMapping("/params/specs")
+    public List<ActorDTO> get(@RequestParam final Map<String, String> map) {
+        return actorService.findByAllParams(map);
     }
 
-
-    @GetMapping("/everything")
-    public ResponseEntity<ActorFilmDTO> get() {
-        return ResponseEntity.ok(actorService.getEverything());
+    @JsonView({FilmDTO.MinimalReq.class})
+    @GetMapping("/allInfo")
+    public List<ActorCompleteDTO> getAllInfo() {
+        return actorService.getEverything();
     }
 
     @GetMapping("/actorsByFilmId/{id}")

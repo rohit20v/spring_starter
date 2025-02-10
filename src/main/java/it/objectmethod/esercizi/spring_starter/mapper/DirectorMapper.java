@@ -12,7 +12,6 @@ import java.util.List;
 @Component
 public class DirectorMapper implements BasicMethodMapping<DirectorDTO, Director> {
 
-
     @Override
     public DirectorDTO mapToDto(Director director) {
         List<Integer> films;
@@ -28,9 +27,7 @@ public class DirectorMapper implements BasicMethodMapping<DirectorDTO, Director>
                     .films(films)
                     .build();
         }
-
         return null;
-
     }
 
     @Override

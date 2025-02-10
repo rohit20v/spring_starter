@@ -42,7 +42,7 @@ public class Actor implements Serializable {
             joinColumns = @JoinColumn(name = "id_actor"),
             inverseJoinColumns = @JoinColumn(name = "id_film")
     )
-    List<Film> films;
+    private List<Film> films;
 
     // @PrePersist
 }

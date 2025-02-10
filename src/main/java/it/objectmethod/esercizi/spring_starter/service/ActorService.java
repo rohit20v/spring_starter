@@ -1,22 +1,27 @@
 package it.objectmethod.esercizi.spring_starter.service;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import it.objectmethod.esercizi.spring_starter.dao.ActorSearchDAO;
+import it.objectmethod.esercizi.spring_starter.dto.ActorCompleteDTO;
 import it.objectmethod.esercizi.spring_starter.dto.ActorDTO;
-import it.objectmethod.esercizi.spring_starter.dto.ActorFilmDTO;
 import it.objectmethod.esercizi.spring_starter.entity.Actor;
+import it.objectmethod.esercizi.spring_starter.mapper.ActorCompleteMapstruct;
 import it.objectmethod.esercizi.spring_starter.mapper.ActorMapper;
 import it.objectmethod.esercizi.spring_starter.mapper.ActorMapperWIthMapstruct;
 import it.objectmethod.esercizi.spring_starter.repository.ActorRepository;
 import it.objectmethod.esercizi.spring_starter.specification.ActorSpecs;
 import it.objectmethod.esercizi.spring_starter.specification.GeneralSpec;
 import it.objectmethod.esercizi.spring_starter.util.PaginationResponse;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+
+import static it.objectmethod.esercizi.spring_starter.controller.controllerAdvice.BasicResponseException.badRequestException;
+import static it.objectmethod.esercizi.spring_starter.controller.controllerAdvice.BasicResponseException.notFoundException;
+import static it.objectmethod.esercizi.spring_starter.dto.FilmDTO.MinimalReq;
 
 @Service
 public class ActorService {
@@ -25,20 +30,21 @@ public class ActorService {
     private final ActorMapper actorMapper;
 
     private final ActorMapperWIthMapstruct actorMapperWIthMapstruct;
+    private final ActorCompleteMapstruct actorCompleteMapstruct;
 
-    public ActorService(ActorSearchDAO actorDao, final ActorRepository actorRepository, final ActorMapper actorMapper, final ActorMapperWIthMapstruct actorMapperWIthMapstruct) {
+    public ActorService(ActorSearchDAO actorDao, final ActorRepository actorRepository, final ActorMapper actorMapper, final ActorMapperWIthMapstruct actorMapperWIthMapstruct, ActorCompleteMapstruct actorCompleteMapstruct) {
         this.actorDao = actorDao;
         this.actorRepository = actorRepository;
         this.actorMapper = actorMapper;
 
         this.actorMapperWIthMapstruct = actorMapperWIthMapstruct;
+        this.actorCompleteMapstruct = actorCompleteMapstruct;
     }
 
     public ActorDTO findById(final Integer id) {
         return actorMapperWIthMapstruct.toDTO(actorRepository.findById(id)
                 .orElseThrow(
-                        () -> new EntityNotFoundException(String
-                                .format("Could not find actor with id %d", id))));
+                        () -> notFoundException("Could not find actor on %s with id %d", Actor.class.getSimpleName(), id)));
     }
 
     public List<ActorDTO> getAll() {
@@ -57,7 +63,7 @@ public class ActorService {
     }
 
     public List<ActorDTO> findAllBySpecs(String name, String surname, Date dob, String city) {
-        return actorMapperWIthMapstruct.toDTOs(
+        List<ActorDTO> dtOs = actorMapperWIthMapstruct.toDTOs(
                 actorRepository.findAll(
                         ActorSpecs.findByAllColumns(
                                 name,
@@ -67,11 +73,15 @@ public class ActorService {
                         )
                 )
         );
+        dtOs.forEach(System.out::println);
+        return dtOs;
     }
 
     public List<ActorDTO> findAllBySpecs(ActorDTO actorDTO) {
+        List<Actor> all = actorRepository.findAll(ActorSpecs.findByAllColumns(actorDTO));
+        all.forEach(System.out::println);
         return actorMapperWIthMapstruct.toDTOs(
-                actorRepository.findAll(ActorSpecs.findByAllColumns(actorDTO))
+                all
         );
     }
 
@@ -79,8 +89,8 @@ public class ActorService {
         return actorMapperWIthMapstruct.toDTO(actorRepository.findByName(name).orElseThrow());
     }
 
-
     public ActorDTO save(final ActorDTO actorDTO) {
+        final IdentityHashMap<Actor, ActorDTO> identityHashMap = new IdentityHashMap<>();
         Actor entity = actorMapperWIthMapstruct.toEntity(actorDTO);
         actorRepository.save(entity);
         return actorMapperWIthMapstruct.toDTO(entity);
@@ -117,20 +127,25 @@ public class ActorService {
     }
 
     public List<ActorDTO> findByAllParams(Map<String, String> map) {
-        return actorMapperWIthMapstruct.toDTOs(
-                actorRepository.findAll(
-                        GeneralSpec.<Actor>findByAllParams(map)
-                )
-        );
+        List<ActorDTO> dtOs;
+        try {
+            dtOs = actorMapperWIthMapstruct.toDTOs(
+                    actorRepository.findAll(
+                            GeneralSpec.<Actor>findByAllParams(map)
+                    )
+            );
+        } catch (Exception e) {
+            throw badRequestException("Parameter not found");
+        }
+        return dtOs;
     }
 
-    public ActorFilmDTO getEverything() {
-        return actorRepository.getAllFilmActorInfo().get();
+    @JsonView({MinimalReq.class})
+    public List<ActorCompleteDTO> getEverything() {
+        return actorCompleteMapstruct.mapToDtos(actorRepository.findAll());
     }
 
     public void deleteActorById(Integer id) {
         actorRepository.deleteById(id);
     }
-
-
 }
