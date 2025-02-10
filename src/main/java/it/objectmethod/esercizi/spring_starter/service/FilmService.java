@@ -53,11 +53,7 @@ public class FilmService {
     }
 
     public List<FilmDTO> getFilmsUsingSpecification(String title, Date date, String category) {
-        return filmMapperWithMapstruct.toDTOs(
-                filmRepository.findAll(
-                        FilmSpecs.findByAllColumns(title, date, category)
-                )
-        );
+        return filmMapperWithMapstruct.toDTOs(filmRepository.findAll(FilmSpecs.findByAllColumns(title, date, category)));
     }
 
     public Page<FilmDTO> getFilmsByDirectorId(Integer id, Integer page, Integer size) {
@@ -67,22 +63,14 @@ public class FilmService {
     }
 
     public List<FilmDTO> getFilmByActorId(Integer id) {
-        return filmMapperWithMapstruct.toDTOs(
-                filmRepository.findAll(
-                        FilmSpecs.findFilmsByActorId(id)
-                )
-        );
+        return filmMapperWithMapstruct.toDTOs(filmRepository.findAll(FilmSpecs.findFilmsByActorId(id)));
     }
 
     public List<FilmDTO> findByAllParams(Map<String, String> map) {
-        return filmMapperWithMapstruct.toDTOs(
-                filmRepository.findAll(
-                        GeneralSpec.<Film>findByAllParams(map)
-                )
-        );
+        return filmMapperWithMapstruct.toDTOs(filmRepository.findAll(GeneralSpec.<Film>findByAllParams(map)));
     }
 
-    public List<FilmDTO> getFilmsUsingSpecification(FilmDTO filmDTO) {
+    public List<FilmDTO> getFilmsUsingSpecificationDtoParams(FilmDTO filmDTO) {
         return filmMapperWithMapstruct.toDTOs(filmRepository.findAll(FilmSpecs.findByAllColumns(filmDTO)));
     }
 

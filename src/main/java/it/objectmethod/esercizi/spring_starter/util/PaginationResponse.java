@@ -1,20 +1,26 @@
 package it.objectmethod.esercizi.spring_starter.util;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PaginationResponse<T> {
 
-    private final List<T> data;
-    private final Integer pageNumber;
-    private final Integer pageSize;
-    private final Boolean last;
-    private final Boolean first;
-    private final Integer totalPages;
+    private List<T> data;
+    private Integer pageNumber;
+    private Integer pageSize;
+    private Boolean last;
+    private Boolean first;
+    private Integer totalPages;
 
     public PaginationResponse(Page<T> page) {
         this.data = page.getContent();

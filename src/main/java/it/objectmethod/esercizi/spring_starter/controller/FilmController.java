@@ -26,6 +26,16 @@ public class FilmController {
         return ResponseEntity.ok(filmService.getFilms());
     }
 
+    @GetMapping("/params/specs")
+    public ResponseEntity<?> get(@RequestParam final Map<String, String> map) {
+        if (map.isEmpty()) return this.get();
+        List<FilmDTO> queryResult = filmService.findByAllParams(map);
+        if (queryResult == null || queryResult.isEmpty()) {
+            return new ResponseEntity<>("No director found", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(queryResult, HttpStatus.FOUND);
+    }
+
     @GetMapping("/all/page")
     public ResponseEntity<Page<FilmDTO>> getPages(
             @RequestParam(required = false, defaultValue = "0") final Integer page,
@@ -48,7 +58,7 @@ public class FilmController {
 
     @GetMapping("dto/by")
     public ResponseEntity<List<FilmDTO>> getRecordsBySpecification(FilmDTO filmDTO) {
-        return ResponseEntity.ok(filmService.getFilmsUsingSpecification(filmDTO));
+        return ResponseEntity.ok(filmService.getFilmsUsingSpecificationDtoParams(filmDTO));
     }
 
     @GetMapping("page/by")
@@ -88,17 +98,6 @@ public class FilmController {
         if (dto == null) return ResponseEntity.badRequest().build();
         FilmDTO newDto = filmService.save(dto);
         return ResponseEntity.ok(newDto);
-    }
-
-    @GetMapping("/params/specs")
-    public ResponseEntity<?> get(@RequestParam final Map<String, String> map) {
-        if (map.isEmpty()) return this.get();
-        List<FilmDTO> queryResult = filmService.findByAllParams(map);
-        if (queryResult == null || queryResult.isEmpty()) {
-            return new ResponseEntity<>("No director found", HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<List<FilmDTO>>(queryResult, HttpStatus.FOUND);
     }
 
     @PutMapping("/update")

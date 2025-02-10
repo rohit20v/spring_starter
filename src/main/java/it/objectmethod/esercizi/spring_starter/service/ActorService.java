@@ -90,7 +90,6 @@ public class ActorService {
     }
 
     public ActorDTO save(final ActorDTO actorDTO) {
-        final IdentityHashMap<Actor, ActorDTO> identityHashMap = new IdentityHashMap<>();
         Actor entity = actorMapperWIthMapstruct.toEntity(actorDTO);
         actorRepository.save(entity);
         return actorMapperWIthMapstruct.toDTO(entity);
@@ -110,6 +109,7 @@ public class ActorService {
         actorsByCityJPQL.ifPresent(actorList -> actors.addAll(actorMapperWIthMapstruct.toDTOs(actorList)));
         return actors;
     }
+
 
     public List<ActorDTO> getActorsFilteredByCityUsingNative(String city) {
         Optional<List<Actor>> actorsByCityJPQL = actorRepository.getActorsByCityNative(city);
