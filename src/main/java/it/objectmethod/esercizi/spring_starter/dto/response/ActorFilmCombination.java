@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -16,7 +17,7 @@ public class ActorFilmCombination {
     private String actorName;
     private String actorSurname;
     private String actorCity;
-    private Date actorDob;
+    private LocalDate actorDob;
     private Integer filmId;
     private String filmTitle;
     private String filmCategory;

@@ -1,10 +1,7 @@
 package it.objectmethod.esercizi.spring_starter.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +26,7 @@ public class Director {
     @Column(name = "city", nullable = false)
     private String city;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "director", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Film> films = new ArrayList<>();
 }

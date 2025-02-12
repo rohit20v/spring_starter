@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.Date;
 
 public class FilmSpecs {
-    public static Specification<Film> findByAllColumns(String title, Date date, String category) {
+    public static Specification<Film> findByAllColumns(String title, Date date, String category, Integer id_director) {
         return (root, query, criteriaBuilder) -> {
             Predicate titlePredicate = criteriaBuilder.like(root.get("title"), "%" + title + "%");
             Predicate datePredicate = criteriaBuilder.equal(
@@ -19,14 +19,15 @@ public class FilmSpecs {
                     date
             );
             Predicate categoryPredicate = criteriaBuilder.like(root.get("category"), "%" + category + "%");
+            Predicate idDirectorPredicate = criteriaBuilder.equal(root.get("director").get("id"), id_director);
 
-            return criteriaBuilder.or(titlePredicate, datePredicate, categoryPredicate);
+            return criteriaBuilder.or(titlePredicate, datePredicate, categoryPredicate, idDirectorPredicate);
 
         };
     }
 
     public static Specification<Film> findByAllColumns(FilmDTO filmDTO) {
-        return findByAllColumns(filmDTO.getTitle(), filmDTO.getDate(), filmDTO.getCategory());
+        return findByAllColumns(filmDTO.getTitle(), filmDTO.getDate(), filmDTO.getCategory(), filmDTO.getDirector().getId());
     }
 
     public static Specification<Film> findFilmsByActorId(Integer id) {

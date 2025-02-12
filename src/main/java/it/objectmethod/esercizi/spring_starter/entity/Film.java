@@ -1,10 +1,7 @@
 package it.objectmethod.esercizi.spring_starter.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.ArrayList;
@@ -36,6 +33,7 @@ public class Film {
     @JoinColumn(name = "id_director")
     private Director director;
 
+    @ToString.Exclude
     @ManyToMany(mappedBy = "films")
     private List<Actor> actor = new ArrayList<>();
 }

@@ -6,7 +6,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -31,7 +31,7 @@ public class Actor implements Serializable {
 
     @Column(name = "dob", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date dob;
+    private LocalDate dob;
 
     @Column(name = "city", nullable = false)
     private String city;

@@ -17,7 +17,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static it.objectmethod.esercizi.spring_starter.controller.controllerAdvice.BasicResponseException.badRequestException;
 import static it.objectmethod.esercizi.spring_starter.controller.controllerAdvice.BasicResponseException.notFoundException;
@@ -62,7 +66,7 @@ public class ActorService {
         return actorDao.finalAll(name, surname, city);
     }
 
-    public List<ActorDTO> findAllBySpecs(String name, String surname, Date dob, String city) {
+    public List<ActorDTO> findAllBySpecs(String name, String surname, LocalDate dob, String city) {
         List<ActorDTO> dtOs = actorMapperWIthMapstruct.toDTOs(
                 actorRepository.findAll(
                         ActorSpecs.findByAllColumns(

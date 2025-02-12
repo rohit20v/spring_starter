@@ -2,6 +2,9 @@ package it.objectmethod.esercizi.spring_starter.controller;
 
 import it.objectmethod.esercizi.spring_starter.dto.DirectorDTO;
 import it.objectmethod.esercizi.spring_starter.service.DirectorService;
+import it.objectmethod.esercizi.spring_starter.util.PaginationResponse;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -48,9 +51,9 @@ public class DirectorController {
         return ResponseEntity.ok(directorService.getDirectorById(id));
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteDirector(@RequestParam final Integer id) {
-        if (id == null) return ResponseEntity.badRequest().build();
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteDirector(@PathVariable final Integer id) {
+//        if (id == null) return ResponseEntity.badRequest().build();
         directorService.deleteDirectorById(id);
         return ResponseEntity.ok("Director deleted successfully");
     }
@@ -86,6 +89,11 @@ public class DirectorController {
         if (dto == null) return ResponseEntity.badRequest().build();
         DirectorDTO newDto = directorService.update(dto);
         return ResponseEntity.ok(newDto);
+    }
+
+    @GetMapping("/page")
+    public PaginationResponse<DirectorDTO> getInPage(@PageableDefault(page = 0, size = 2) Pageable pageable) {
+        return directorService.getDirectorPages(pageable);
     }
 
     public interface PUT {

@@ -2,12 +2,15 @@ package it.objectmethod.esercizi.spring_starter.specification;
 
 import it.objectmethod.esercizi.spring_starter.dto.ActorDTO;
 import it.objectmethod.esercizi.spring_starter.entity.Actor;
+import it.objectmethod.esercizi.spring_starter.entity.Director;
 import it.objectmethod.esercizi.spring_starter.entity.Film;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActorSpecs {
     private static Integer name;
@@ -18,18 +21,22 @@ public class ActorSpecs {
                 .and(findActorsFilmsById(name));
     }
 
-    public static Specification<Actor> findByAllColumns(String name, String surname, Date dob, String city) {
+    public static Specification<Actor> findByAllColumns(String name, String surname, @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dob, String city) {
         return (root, query, criteriaBuilder) -> {
             if (name == null && surname == null && dob == null && city == null)
                 return null;
-            Predicate namePredicate = criteriaBuilder.like(root.get("name"), "%" + name + "%");
-            Predicate surnamePredicate = criteriaBuilder.like(root.get("surname"), "%" + surname + "%");
-            Predicate dobPredicate = criteriaBuilder.equal(
-                    criteriaBuilder.function("date", Date.class, root.get("dob")), dob);
+            List<Predicate> predicates = new ArrayList<>();
+            if (name != null)
+                predicates.add(criteriaBuilder.like(root.get("name"), "%" + name + "%"));
+            if (surname != null)
+                predicates.add(criteriaBuilder.like(root.get("surname"), "%" + surname + "%"));
+            if (dob != null)
+                predicates.add(criteriaBuilder.equal(
+                        criteriaBuilder.function("date", LocalDate.class, root.get("dob")), dob));
+            if (city != null)
+                predicates.add(criteriaBuilder.like(root.get("city"), "%" + city + "%"));
 
-            Predicate cityPredicate = criteriaBuilder.like(root.get("city"), "%" + city + "%");
-
-            return criteriaBuilder.or(namePredicate, surnamePredicate, dobPredicate, cityPredicate);
+            return criteriaBuilder.or(predicates.toArray(new Predicate[0]));
 
         };
     }
@@ -39,9 +46,12 @@ public class ActorSpecs {
     }
 
     public static Specification<Actor> findActorsFilmsById(Integer id) {
-        return (root, query, criteriaBuilder) -> {
+        return (Root<Actor> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
 
             Join<Film, Actor> filmJoin = root.join("films");
+            query = criteriaBuilder.createQuery(Director.class);
+
+
             return criteriaBuilder.equal(filmJoin.get("id"), id);
 
         };

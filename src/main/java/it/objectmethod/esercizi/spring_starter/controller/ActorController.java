@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +56,7 @@ public class ActorController {
     @GetMapping("/by")
     public ResponseEntity<List<ActorDTO>> findByItemBy(@RequestParam(required = false) final String name,
                                                        @RequestParam(required = false) final String surname,
-                                                       @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") final Date dob,
+                                                       @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") final LocalDate dob,
                                                        @RequestParam(required = false) final String city) {
         return ResponseEntity.ok(actorService.findAllBySpecs(name, surname, dob, city));
     }

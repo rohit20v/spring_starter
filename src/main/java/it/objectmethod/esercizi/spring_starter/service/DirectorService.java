@@ -7,6 +7,9 @@ import it.objectmethod.esercizi.spring_starter.mapper.DirectorMapperWithMapstruc
 import it.objectmethod.esercizi.spring_starter.repository.DirectorRepository;
 import it.objectmethod.esercizi.spring_starter.specification.DirectorSpecs;
 import it.objectmethod.esercizi.spring_starter.specification.GeneralSpec;
+import it.objectmethod.esercizi.spring_starter.util.PaginationResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +36,13 @@ public class DirectorService {
 
     public List<DirectorDTO> getAllDirectors() {
         return directorMapperWithMapstruct.toDTOs(directorRepository.findAll());
+    }
+
+    public PaginationResponse<DirectorDTO> getDirectorPages(Pageable pageable) {
+        Page<Director> directors = directorRepository.findAll(pageable);
+        Page<DirectorDTO> directorDTOS = directors.map(directorMapperWithMapstruct::toDTO);
+
+        return new PaginationResponse<>(directorDTOS);
     }
 
     public List<DirectorDTO> getAllDirectorsBySpecification(String name, String surname, String city) {

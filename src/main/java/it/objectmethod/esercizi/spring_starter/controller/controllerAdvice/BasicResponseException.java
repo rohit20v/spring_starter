@@ -6,11 +6,11 @@ import org.springframework.http.HttpStatus;
 import java.time.Instant;
 
 public final class BasicResponseException extends RuntimeException {
-    private String message;
     @Getter
     private final Instant timestamp;
     @Getter
     private final HttpStatus httpStatus;
+    private String message;
 
     private BasicResponseException(String message, HttpStatus httpStatus) {
         super(message);

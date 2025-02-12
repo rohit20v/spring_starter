@@ -52,8 +52,9 @@ public class FilmController {
     @GetMapping("/by")
     public ResponseEntity<List<FilmDTO>> getRecordsBySpecification(@RequestParam(required = false) final String title,
                                                                    @RequestParam(required = false) final Date date,
+                                                                   @RequestParam(required = false) final Integer directorId,
                                                                    @RequestParam(required = false) final String category) {
-        return ResponseEntity.ok(filmService.getFilmsUsingSpecification(title, date, category));
+        return ResponseEntity.ok(filmService.getFilmsUsingSpecification(title, date, category, directorId));
     }
 
     @GetMapping("dto/by")
@@ -107,9 +108,9 @@ public class FilmController {
         return ResponseEntity.ok(newDto);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> delete(@RequestParam final Integer id) {
-        if (filmService.getFilmById(id) == null) ResponseEntity.ok().body("Film doesn't exist");
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> delete(@PathVariable final Integer id) {
+//        if (filmService.getFilmById(id) == null) ResponseEntity.ok("Film doesn't exist");
         filmService.delete(id);
         return ResponseEntity.ok("Film deleted successfully");
     }

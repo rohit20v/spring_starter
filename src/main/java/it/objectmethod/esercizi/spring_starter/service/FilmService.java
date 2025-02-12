@@ -52,8 +52,8 @@ public class FilmService {
         return filmPage.map(filmMapperWithMapstruct::toDTO);
     }
 
-    public List<FilmDTO> getFilmsUsingSpecification(String title, Date date, String category) {
-        return filmMapperWithMapstruct.toDTOs(filmRepository.findAll(FilmSpecs.findByAllColumns(title, date, category)));
+    public List<FilmDTO> getFilmsUsingSpecification(String title, Date date, String category, Integer directorId) {
+        return filmMapperWithMapstruct.toDTOs(filmRepository.findAll(FilmSpecs.findByAllColumns(title, date, category, directorId)));
     }
 
     public Page<FilmDTO> getFilmsByDirectorId(Integer id, Integer page, Integer size) {
@@ -107,6 +107,7 @@ public class FilmService {
     public FilmDTO update(FilmDTO dto) {
         return this.save(dto);
     }
+
 
     public void delete(Integer id) {
         filmRepository.deleteById(id);

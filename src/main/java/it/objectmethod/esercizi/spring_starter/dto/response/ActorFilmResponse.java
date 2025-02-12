@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -20,7 +20,7 @@ public class ActorFilmResponse {
     private String actorName;
     private String actorSurname;
     private String actorCity;
-    private Date actorDob;
+    private LocalDate actorDob;
 
     private List<FilmDTO> filmDTO;
 }

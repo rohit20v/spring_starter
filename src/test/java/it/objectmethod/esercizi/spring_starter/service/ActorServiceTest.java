@@ -89,23 +89,17 @@ class ActorServiceTest {
 
         final Page<Actor> actorPage = new PageImpl<>(mockData);
 
+        Page<ActorDTO> defaultDtoPage = actorPage.map(actorMapperWIthMapstruct::toDTO);
+        PaginationResponse<ActorDTO> expected = new PaginationResponse<>(defaultDtoPage);
+
         //ACTION
         when(actorRepository.findAll(PageRequest.of(page, size)))
                 .thenReturn(actorPage);
         final PaginationResponse<ActorDTO> actual = actorService.getPage(page, size);
 
-        
-        Page<ActorDTO> defaultDtoPage = actorPage.map(actorMapperWIthMapstruct::toDTO);
-        PaginationResponse<ActorDTO> expected = new PaginationResponse<>(defaultDtoPage);
-
         assertThat(actual)
                 .usingRecursiveComparison()
                 .isEqualTo(expected);
-
     }
 
-    @Test
-    void shouldSaveActor_whenInvokedSave(){
-
-    }
 }
