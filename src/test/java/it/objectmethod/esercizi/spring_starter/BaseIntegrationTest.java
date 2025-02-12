@@ -59,16 +59,6 @@ public abstract class BaseIntegrationTest {
     private CacheManager cacheManager;
 
     /**
-     * Svuota tutte le cache disponibili nel sistema.
-     * Utilizzato nei test per garantire che i dati in cache non influenzino i risultati.
-     */
-    public void clearCache() {
-        if (cacheManager != null) {
-            this.cacheManager.getCacheNames().forEach(cache -> Objects.requireNonNull(this.cacheManager.getCache(cache)).clear());
-        }
-    }
-
-    /**
      * Crea un'istanza di WireMockExtension con configurazioni di default per il testing.
      *
      * @return un'istanza configurata di {@link WireMockExtension}.
@@ -92,6 +82,16 @@ public abstract class BaseIntegrationTest {
                     Assertions.fail("A stub mapping was defined but never used: \r\n" + mapping);
                 }
             }
+        }
+    }
+
+    /**
+     * Svuota tutte le cache disponibili nel sistema.
+     * Utilizzato nei test per garantire che i dati in cache non influenzino i risultati.
+     */
+    public void clearCache() {
+        if (cacheManager != null) {
+            this.cacheManager.getCacheNames().forEach(cache -> Objects.requireNonNull(this.cacheManager.getCache(cache)).clear());
         }
     }
 
