@@ -95,7 +95,7 @@ class ActorServiceTest {
         //ACTION
         when(actorRepository.findAll(PageRequest.of(page, size)))
                 .thenReturn(actorPage);
-        final PaginationResponse<ActorDTO> actual = actorService.getPage(page, size);
+        final PaginationResponse<ActorDTO> actual = actorService.getPage(page, size, "");
 
         assertThat(actual)
                 .usingRecursiveComparison()

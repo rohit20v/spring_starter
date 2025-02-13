@@ -227,4 +227,48 @@ public class ActorIntegrationTest extends BaseIntegrationTest {
                 .isEqualTo(expected);
     }
 
+    @Test
+    void shouldReturnActorsByActorNamesIn() {
+        final String[] params = {"Leonardo", "Tom"};
+
+        final List<ActorDTO> expected = List.of(
+                ActorDTO.builder()
+                        .id(1)
+                        .name("Leonardo")
+                        .surname("dicaprio")
+                        .dob(LocalDate.parse("1973-01-31"))
+                        .city("NYC")
+                        .films(List.of(
+                                1
+                        ))
+                        .build(),
+                ActorDTO.builder()
+                        .id(2)
+                        .name("Tom")
+                        .surname("hardy")
+                        .dob(LocalDate.parse("1949-02-01"))
+                        .city("Japan")
+                        .films(List.of(
+                                2
+                        ))
+                        .build()
+        );
+
+        final List<ActorDTO> actual = given()
+                .port(this.port)
+                .contentType(ContentType.JSON)
+                .when()
+                .queryParam("names", (Object[]) params)
+                .get("api/actor/names/in")
+                .prettyPeek()
+                .then()
+                .extract()
+                .as(new TypeRef<>() {
+                });
+
+        assertThat(actual)
+                .usingRecursiveComparison()
+                .isEqualTo(expected);
+    }
+
 }
