@@ -160,4 +160,12 @@ public class ActorService {
     public void deleteActorById(Integer id) {
         actorRepository.deleteById(id);
     }
+
+    public List<ActorDTO> findByNameIn(String[] names) {
+        return actorMapperWIthMapstruct.toDTOs(
+                actorRepository.findAll(
+                        ActorSpecs.findByActorNameIn(names)
+                )
+        );
+    }
 }

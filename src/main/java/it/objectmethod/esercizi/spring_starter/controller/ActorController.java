@@ -116,6 +116,11 @@ public class ActorController {
         return actorService.findByAllParams(map);
     }
 
+    @GetMapping("/names/in")
+    public List<ActorDTO> getInNames(@RequestParam final String... names) {
+        return actorService.findByNameIn(names);
+    }
+
     @JsonView({FilmDTO.MinimalReq.class})
     @GetMapping("/allInfo")
     public List<ActorCompleteDTO> getAllInfo() {

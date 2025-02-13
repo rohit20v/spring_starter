@@ -55,6 +55,9 @@ public class ActorSpecs {
             return criteriaBuilder.equal(filmJoin.get("id"), id);
 
         };
+    }
 
+    public static Specification<Actor> findByActorNameIn(String[] names) {
+        return (root, query, cb) -> root.get("name").in((Object[]) names);
     }
 }
