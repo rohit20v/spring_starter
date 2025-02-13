@@ -9,7 +9,6 @@ import it.objectmethod.esercizi.spring_starter.repository.FilmRepository;
 import it.objectmethod.esercizi.spring_starter.specification.FilmSpecs;
 import it.objectmethod.esercizi.spring_starter.specification.GeneralSpec;
 import it.objectmethod.esercizi.spring_starter.util.PaginationResponse;
-import jakarta.persistence.Transient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -104,11 +103,9 @@ public class FilmService {
         return filmMapperWithMapstruct.toDTO(save);
     }
 
-    @Transient
     public FilmDTO update(FilmDTO dto) {
         return this.save(dto);
     }
-
 
     public void delete(Integer id) {
         filmRepository.deleteById(id);

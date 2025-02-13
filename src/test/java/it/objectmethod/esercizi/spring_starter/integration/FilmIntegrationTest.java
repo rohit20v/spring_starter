@@ -6,6 +6,7 @@ import it.objectmethod.esercizi.spring_starter.BaseIntegrationTest;
 import it.objectmethod.esercizi.spring_starter.dto.DirectorDTO;
 import it.objectmethod.esercizi.spring_starter.dto.FilmDTO;
 import it.objectmethod.esercizi.spring_starter.util.PaginationResponse;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -79,7 +80,8 @@ public class FilmIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void shouldReturnAllFilms()  {
+    @Order(1)
+    void shouldReturnAllFilms() {
 
         final List<FilmDTO> actual = given()
                 .port(super.port)
@@ -99,6 +101,7 @@ public class FilmIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    @Order(2)
     void shouldReturnAFilmById() throws ParseException {
         final Integer id = 1;
 
@@ -142,24 +145,7 @@ public class FilmIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void shouldDeleteById() {
-        final Integer id = 3;
-
-        given()
-                .port(this.port)
-                .delete("/api/film/delete/{id}", id)
-                .then()
-                .statusCode(200);
-
-        given()
-                .port(this.port)
-                .get("api/film/{id}", id)
-                .then()
-                .statusCode(404);
-
-    }
-
-    @Test
+    @Order(3)
     void shouldReturnAllFilmPagesWithRequestParams() {
         final Integer page = 0;
         final Integer size = 3;
@@ -193,6 +179,7 @@ public class FilmIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    @Order(4)
     void shouldReturnAllFilmPagesWithDefaultParams() {
         final Integer page = 0;
         final Integer size = 2;
@@ -223,4 +210,23 @@ public class FilmIntegrationTest extends BaseIntegrationTest {
                 .isEqualTo(expected);
     }
 
+
+    @Test
+    @Order(5)
+    void shouldDeleteById() {
+        final Integer id = 3;
+
+        given()
+                .port(this.port)
+                .delete("/api/film/delete/{id}", id)
+                .then()
+                .statusCode(200);
+
+        given()
+                .port(this.port)
+                .get("api/film/{id}", id)
+                .then()
+                .statusCode(404);
+
+    }
 }

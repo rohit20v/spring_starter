@@ -37,6 +37,11 @@ public class FilmController {
         return new ResponseEntity<>(queryResult, HttpStatus.FOUND);
     }
 
+    @GetMapping("record/category")
+    public ResponseEntity<List<FilmRecord>> get(@RequestParam String genre) {
+        return ResponseEntity.ok(filmService.getFilmsByGenre(genre));
+    }
+
     @GetMapping("/all/page")
     public ResponseEntity<Page<FilmDTO>> getPages(
             @RequestParam(required = false, defaultValue = "0") final Integer page,
@@ -114,10 +119,5 @@ public class FilmController {
 //        if (filmService.getFilmById(id) == null) ResponseEntity.ok("Film doesn't exist");
         filmService.delete(id);
         return ResponseEntity.ok("Film deleted successfully");
-    }
-
-    @GetMapping("record/category")
-    public ResponseEntity<List<FilmRecord>> get(@RequestParam String genre) {
-        return ResponseEntity.ok(filmService.getFilmsByGenre(genre));
     }
 }

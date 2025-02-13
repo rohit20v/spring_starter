@@ -4,6 +4,7 @@ import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import it.objectmethod.esercizi.spring_starter.BaseIntegrationTest;
 import it.objectmethod.esercizi.spring_starter.dto.DirectorDTO;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class DirectorIntegrationTest extends BaseIntegrationTest {
 
     @Test
+    @Order(1)
     void shouldReturnAllDirectors() {
         final List<DirectorDTO> expected = List.of(
                 DirectorDTO.builder()
@@ -31,6 +33,13 @@ public class DirectorIntegrationTest extends BaseIntegrationTest {
                         .name("Mary")
                         .surname("Harron")
                         .city("USA")
+                        .films(emptyList())
+                        .build(),
+                DirectorDTO.builder()
+                        .id(3)
+                        .name("Bob")
+                        .surname("Marley")
+                        .city("Nyc")
                         .films(emptyList())
                         .build()
         );
@@ -51,6 +60,7 @@ public class DirectorIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    @Order(2)
     void shouldDeleteById() {
         final Integer id = 3;
 
@@ -69,6 +79,7 @@ public class DirectorIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    @Order(3)
     void shouldSaveADirector() {
         DirectorDTO expected = DirectorDTO.builder()
                 .id(4)

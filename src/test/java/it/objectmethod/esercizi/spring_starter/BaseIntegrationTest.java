@@ -10,6 +10,8 @@ import com.github.tomakehurst.wiremock.matching.StringValuePattern;
 import com.github.tomakehurst.wiremock.stubbing.ServeEvent;
 import com.github.tomakehurst.wiremock.stubbing.StubMapping;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -38,6 +40,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
  * Classe base astratta per i test di integrazione. Fornisce metodi di utilità per la gestione del caching,
  * creazione di stubs, e verifica delle risposte HTTP, utilizzando WireMock e altre librerie per il testing.
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = SpringStarterApplication.class)
 @ActiveProfiles({"test"})
 @Sql(scripts = {
@@ -46,7 +49,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
         "classpath:/dbH2/03-insert-director.sql",
         "classpath:/dbH2/04-insert-films.sql",
         "classpath:/dbH2/05-insert-film-actor.sql"
-}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
 public abstract class BaseIntegrationTest {
 
     @LocalServerPort
