@@ -3,6 +3,7 @@ package it.objectmethod.esercizi.spring_starter.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import it.objectmethod.esercizi.spring_starter.dto.ActorCompleteDTO;
 import it.objectmethod.esercizi.spring_starter.dto.ActorDTO;
+import it.objectmethod.esercizi.spring_starter.dto.ActorRecord;
 import it.objectmethod.esercizi.spring_starter.dto.FilmDTO;
 import it.objectmethod.esercizi.spring_starter.service.ActorService;
 import it.objectmethod.esercizi.spring_starter.util.PaginationResponse;
@@ -131,5 +132,10 @@ public class ActorController {
     public ResponseEntity<?> movies(@PathVariable Integer id) {
         if (id == null) return new ResponseEntity<>("Data not found", HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(actorService.getFilmsByActorId(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/record")
+    public ResponseEntity<ActorRecord> getAR(@RequestParam String city) {
+        return ResponseEntity.ok(actorService.getActorRecord(city));
     }
 }

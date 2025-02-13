@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import it.objectmethod.esercizi.spring_starter.dao.ActorSearchDAO;
 import it.objectmethod.esercizi.spring_starter.dto.ActorCompleteDTO;
 import it.objectmethod.esercizi.spring_starter.dto.ActorDTO;
+import it.objectmethod.esercizi.spring_starter.dto.ActorRecord;
 import it.objectmethod.esercizi.spring_starter.entity.Actor;
 import it.objectmethod.esercizi.spring_starter.mapper.ActorCompleteMapstruct;
 import it.objectmethod.esercizi.spring_starter.mapper.ActorMapper;
@@ -166,6 +167,12 @@ public class ActorService {
                 actorRepository.findAll(
                         ActorSpecs.findByActorNameIn(names)
                 )
+        );
+    }
+
+    public ActorRecord getActorRecord(String city){
+        return actorRepository.findByCity(city, ActorRecord.class).orElseThrow(
+                () -> notFoundException("Could not find actor in %s", Actor.class.getSimpleName(), city)
         );
     }
 }
