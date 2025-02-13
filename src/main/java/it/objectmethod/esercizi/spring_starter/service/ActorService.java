@@ -55,9 +55,17 @@ public class ActorService {
         return actorMapperWIthMapstruct.toDTOs(actorRepository.findAll());
     }
 
-    public PaginationResponse<ActorDTO> getPage(final Integer page, final Integer size) {
+    public PaginationResponse<ActorDTO> getPage(final Integer page, Integer size, String size_) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Actor> actorPage = actorRepository.findAll(pageable);
+
+        if (size_ != null && (size_.equalsIgnoreCase("max") || size_.equalsIgnoreCase("all"))) {
+            size = (int) actorPage.getTotalElements();
+        }
+
+        pageable = PageRequest.of(page, size);
+        actorPage = actorRepository.findAll(pageable);
+
         Page<ActorDTO> actorDtoPage = actorPage.map(actorMapperWIthMapstruct::toDTO);
         return new PaginationResponse<>(actorDtoPage);
     }

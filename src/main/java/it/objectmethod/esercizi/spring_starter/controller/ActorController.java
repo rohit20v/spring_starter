@@ -37,8 +37,10 @@ public class ActorController {
 
     @GetMapping("/allPage")
     public PaginationResponse<ActorDTO> getPage(@RequestParam(defaultValue = "0") final Integer page,
-                                                @RequestParam(defaultValue = "2") final Integer size) {
-        return actorService.getPage(page, size);
+                                                @RequestParam(defaultValue = "2") final Integer size,
+                                                @RequestParam(required = false) final String size_
+    ) {
+        return actorService.getPage(page, size, size_);
     }
 
     @GetMapping("/search_by")
