@@ -1,6 +1,7 @@
 package it.objectmethod.esercizi.spring_starter.service;
 
 import it.objectmethod.esercizi.spring_starter.dto.FilmDTO;
+import it.objectmethod.esercizi.spring_starter.dto.FilmRecord;
 import it.objectmethod.esercizi.spring_starter.entity.Film;
 import it.objectmethod.esercizi.spring_starter.mapper.FilmMapper;
 import it.objectmethod.esercizi.spring_starter.mapper.FilmMapperWithMapstruct;
@@ -111,5 +112,9 @@ public class FilmService {
 
     public void delete(Integer id) {
         filmRepository.deleteById(id);
+    }
+
+    public List<FilmRecord> getFilmsByGenre(String genre){
+        return filmRepository.getFilmByCategory(genre, FilmRecord.class);
     }
 }

@@ -1,6 +1,7 @@
 package it.objectmethod.esercizi.spring_starter.controller;
 
 import it.objectmethod.esercizi.spring_starter.dto.FilmDTO;
+import it.objectmethod.esercizi.spring_starter.dto.FilmRecord;
 import it.objectmethod.esercizi.spring_starter.service.FilmService;
 import it.objectmethod.esercizi.spring_starter.util.PaginationResponse;
 import org.springframework.data.domain.Page;
@@ -113,5 +114,10 @@ public class FilmController {
 //        if (filmService.getFilmById(id) == null) ResponseEntity.ok("Film doesn't exist");
         filmService.delete(id);
         return ResponseEntity.ok("Film deleted successfully");
+    }
+
+    @GetMapping("record/category")
+    public ResponseEntity<List<FilmRecord>> get(@RequestParam String genre) {
+        return ResponseEntity.ok(filmService.getFilmsByGenre(genre));
     }
 }
