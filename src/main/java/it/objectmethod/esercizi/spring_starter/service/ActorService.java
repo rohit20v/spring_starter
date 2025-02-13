@@ -59,10 +59,10 @@ public class ActorService {
     public PaginationResponse<ActorDTO> getPage(final Integer page, Integer size, String size_) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Actor> actorPage = actorRepository.findAll(pageable);
-
-        if (size_ != null && (size_.equalsIgnoreCase("max") || size_.equalsIgnoreCase("all"))) {
-            size = (int) actorPage.getTotalElements();
-        }
+//
+//        if (size_ != null && (size_.equalsIgnoreCase("max") || size_.equalsIgnoreCase("all"))) {
+//            size = (int) actorPage.getTotalElements();
+//        }
 
         pageable = PageRequest.of(page, size);
         actorPage = actorRepository.findAll(pageable);
@@ -123,7 +123,6 @@ public class ActorService {
         return actors;
     }
 
-
     public List<ActorDTO> getActorsFilteredByCityUsingNative(String city) {
         Optional<List<Actor>> actorsByCityJPQL = actorRepository.getActorsByCityNative(city);
         List<ActorDTO> actors = new ArrayList<>();
@@ -144,7 +143,7 @@ public class ActorService {
         try {
             dtOs = actorMapperWIthMapstruct.toDTOs(
                     actorRepository.findAll(
-                            GeneralSpec.<Actor>findByAllParams(map)
+                            GeneralSpec.findByAllParams(map)
                     )
             );
         } catch (Exception e) {
@@ -170,9 +169,7 @@ public class ActorService {
         );
     }
 
-    public ActorRecord getActorRecord(String city){
-        return actorRepository.findByCity(city, ActorRecord.class).orElseThrow(
-                () -> notFoundException("Could not find actor in %s", Actor.class.getSimpleName(), city)
-        );
+    public ActorRecord getActorRecord(String city) {
+        return actorRepository.findByCity(city, ActorRecord.class).orElseThrow(() -> notFoundException("Could not find actor in %s", Actor.class.getSimpleName(), city));
     }
 }

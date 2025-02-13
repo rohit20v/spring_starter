@@ -49,8 +49,7 @@ public class ActorSpecs {
         return (Root<Actor> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
 
             Join<Film, Actor> filmJoin = root.join("films");
-            query = criteriaBuilder.createQuery(Director.class);
-
+            criteriaBuilder.createQuery(Director.class);
 
             return criteriaBuilder.equal(filmJoin.get("id"), id);
 

@@ -111,7 +111,7 @@ public class FilmService {
         filmRepository.deleteById(id);
     }
 
-    public List<FilmRecord> getFilmsByGenre(String genre){
+    public List<FilmRecord> getFilmsByGenre(String genre) {
         return filmRepository.getFilmByCategory(genre, FilmRecord.class);
     }
 }
