@@ -14,7 +14,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class DirectorIntegrationTest extends BaseIntegrationTest {
 
-
     @Test
     void shouldReturnAllDirectors() {
         final List<DirectorDTO> expected = List.of(
@@ -67,5 +66,46 @@ public class DirectorIntegrationTest extends BaseIntegrationTest {
                 .then()
                 .statusCode(404);
 
+    }
+
+    @Test
+    void shouldSaveADirector() {
+        DirectorDTO expected = DirectorDTO.builder()
+                .id(4)
+                .name("Ryan")
+                .surname("Gosling")
+                .city("Washington")
+                .films(emptyList())
+                .build();
+
+        DirectorDTO given = DirectorDTO.builder()
+                .name("Ryan")
+                .surname("Gosling")
+                .city("Washington")
+                .films(emptyList())
+                .build();
+
+
+        DirectorDTO actual = given()
+                .port(this.port)
+                .contentType(ContentType.JSON)
+                .when()
+                .body(given)
+                .post("/api/director/save")
+                .then()
+                .statusCode(201)
+                .extract()
+                .as(new TypeRef<>() {
+                });
+
+//        given()
+//                .port(super.port)
+//                .get("/api/actor/{id}", 3)
+//                .then()
+//                .statusCode(200);
+
+        assertThat(actual)
+                .usingRecursiveComparison()
+                .isEqualTo(expected);
     }
 }

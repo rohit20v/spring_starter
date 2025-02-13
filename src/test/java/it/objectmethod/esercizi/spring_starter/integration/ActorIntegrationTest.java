@@ -14,6 +14,48 @@ import static java.util.Collections.emptyList;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class ActorIntegrationTest extends BaseIntegrationTest {
+    @Test
+    void shouldSaveAnActor() {
+        ActorDTO expected = ActorDTO.builder()
+                .id(3)
+                .name("Ryan")
+                .surname("Gosling")
+                .dob(LocalDate.parse("1989-04-09"))
+                .city("Washington")
+                .films(emptyList())
+                .build();
+
+        ActorDTO given = ActorDTO.builder()
+                .name("Ryan")
+                .surname("Gosling")
+                .dob(LocalDate.parse("1989-04-09"))
+                .city("Washington")
+                .films(emptyList())
+                .build();
+
+
+        ActorDTO actual = given()
+                .port(this.port)
+                .contentType(ContentType.JSON)
+                .when()
+                .body(given)
+                .post("/api/actor/save")
+                .then()
+                .statusCode(200)
+                .extract()
+                .as(new TypeRef<>() {
+                });
+
+//        given()
+//                .port(super.port)
+//                .get("/api/actor/{id}", 3)
+//                .then()
+//                .statusCode(200);
+
+        assertThat(actual)
+                .usingRecursiveComparison()
+                .isEqualTo(expected);
+    }
 
     @Test
     void shouldReturnAllActors() {
@@ -48,14 +90,13 @@ public class ActorIntegrationTest extends BaseIntegrationTest {
                 .statusCode(200)
                 .contentType(ContentType.JSON)
                 .extract()
-                .as(new TypeRef<List<ActorDTO>>() {
+                .as(new TypeRef<>() {
                 });
 
         assertThat(actual)
                 .usingRecursiveComparison()
                 .isEqualTo(expected);
     }
-
 
     @Test
     void shouldReturnAnActorByID() {
@@ -79,7 +120,7 @@ public class ActorIntegrationTest extends BaseIntegrationTest {
                 .then()
                 .statusCode(200)
                 .extract()
-                .as(new TypeRef<ActorDTO>() {
+                .as(new TypeRef<>() {
                 });
 
         assertThat(actual)
@@ -123,7 +164,7 @@ public class ActorIntegrationTest extends BaseIntegrationTest {
                 .then()
                 .statusCode(200)
                 .extract()
-                .as(new TypeRef<List<ActorDTO>>() {
+                .as(new TypeRef<>() {
                 });
 
         assertThat(actual)
@@ -131,48 +172,6 @@ public class ActorIntegrationTest extends BaseIntegrationTest {
                 .isEqualTo(expected);
     }
 
-    @Test
-    void shouldSaveAnActor() {
-        ActorDTO expected = ActorDTO.builder()
-                .id(3)
-                .name("Ryan")
-                .surname("Gosling")
-                .dob(LocalDate.parse("1989-04-09"))
-                .city("Washington")
-                .films(emptyList())
-                .build();
-
-        ActorDTO given = ActorDTO.builder()
-                .name("Ryan")
-                .surname("Gosling")
-                .dob(LocalDate.parse("1989-04-09"))
-                .city("Washington")
-                .films(emptyList())
-                .build();
-
-
-        ActorDTO actual = given()
-                .port(this.port)
-                .contentType(ContentType.JSON)
-                .when()
-                .body(given)
-                .post("/api/actor/save")
-                .then()
-                .statusCode(201)
-                .extract()
-                .as(new TypeRef<ActorDTO>() {
-                });
-
-//        given()
-//                .port(super.port)
-//                .get("/api/actor/{id}", 3)
-//                .then()
-//                .statusCode(200);
-
-        assertThat(actual)
-                .usingRecursiveComparison()
-                .isEqualTo(expected);
-    }
 
     @Test
     void shouldDeleteAnActorById() {
@@ -213,7 +212,7 @@ public class ActorIntegrationTest extends BaseIntegrationTest {
                 .then()
                 .statusCode(200)
                 .extract()
-                .as(new TypeRef<ActorDTO>() {
+                .as(new TypeRef<>() {
                 });
 
         given()

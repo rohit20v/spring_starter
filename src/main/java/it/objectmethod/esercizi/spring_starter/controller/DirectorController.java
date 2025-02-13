@@ -62,7 +62,7 @@ public class DirectorController {
     public ResponseEntity<DirectorDTO> save(@RequestBody DirectorDTO dto) {
         if (dto == null) return ResponseEntity.badRequest().build();
         DirectorDTO newDto = directorService.save(dto);
-        return ResponseEntity.ok(newDto);
+        return new ResponseEntity<>(newDto, HttpStatus.CREATED);
     }
 
     @GetMapping("/vlad/specs")
@@ -71,7 +71,7 @@ public class DirectorController {
         if (queryResult == null || queryResult.isEmpty())
             return new ResponseEntity<>("No director found", HttpStatus.NOT_FOUND);
 
-        return new ResponseEntity<List<DirectorDTO>>(queryResult, HttpStatus.FOUND);
+        return new ResponseEntity<>(queryResult, HttpStatus.FOUND);
     }
 
     @GetMapping("/params/specs")
@@ -81,7 +81,7 @@ public class DirectorController {
         if (queryResult == null || queryResult.isEmpty())
             return new ResponseEntity<>("No director found", HttpStatus.NOT_FOUND);
 
-        return new ResponseEntity<List<DirectorDTO>>(queryResult, HttpStatus.FOUND);
+        return new ResponseEntity<>(queryResult, HttpStatus.FOUND);
     }
 
     @PutMapping("/update")
@@ -92,7 +92,7 @@ public class DirectorController {
     }
 
     @GetMapping("/page")
-    public PaginationResponse<DirectorDTO> getInPage(@PageableDefault(page = 0, size = 2) Pageable pageable) {
+    public PaginationResponse<DirectorDTO> getInPage(@PageableDefault(size = 2) Pageable pageable) {
         return directorService.getDirectorPages(pageable);
     }
 

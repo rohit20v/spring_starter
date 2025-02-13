@@ -5,8 +5,7 @@
 
 create table actors
 (
-    id      int auto_increment
-        primary key,
+    id      int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name    varchar(50) not null,
     surname varchar(50) not null,
     dob     date        not null,
@@ -15,8 +14,7 @@ create table actors
 
 create table directors
 (
-    id      int auto_increment
-        primary key,
+    id      int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name    varchar(50) not null,
     surname varchar(50) not null,
     city    varchar(50) not null
@@ -24,8 +22,7 @@ create table directors
 
 create table film
 (
-    id          int auto_increment
-        primary key,
+    id          int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title       varchar(100) not null,
     date        timestamp(6) not null,
     category    varchar(50)  not null,
