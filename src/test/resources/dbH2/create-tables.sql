@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS film_actor;
-DROP TABLE IF EXISTS film;
-DROP TABLE IF EXISTS directors;
-DROP TABLE IF EXISTS actors;
+-- DROP TABLE IF EXISTS film_actor;
+-- DROP TABLE IF EXISTS film;
+-- DROP TABLE IF EXISTS directors;
+-- DROP TABLE IF EXISTS actors;
 
 create table actors
 (
