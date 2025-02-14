@@ -46,7 +46,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 @Sql(scripts = {
         "classpath:/dbH2/01-truncate.sql",
         "classpath:/dbH2/02-insert-actor.sql",
-        "classpath:/dbH2/03-insert-director.sql",
+//        "classpath:/dbH2/03-insert-director.sql",
         "classpath:/dbH2/04-insert-films.sql",
         "classpath:/dbH2/05-insert-film-actor.sql"
 }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
