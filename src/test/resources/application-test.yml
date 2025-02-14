@@ -7,7 +7,7 @@ spring:
       hibernate:
       dialect: org.hibernate.dialect.H2Dialect
   datasource:
-    url: jdbc:h2:mem:basedb
+    url: jdbc:h2:mem:basedb;MODE=MySQL;DB_CLOSE_DELAY=-1
     driver-class-name: org.h2.Driver
   h2:
     console:
