@@ -61,25 +61,6 @@ public class DirectorIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Order(2)
-    void shouldDeleteById() {
-        final Integer id = 3;
-
-        given()
-                .port(this.port)
-                .delete("api/director/delete/{id}", id)
-                .then()
-                .statusCode(200);
-
-        given()
-                .port(this.port)
-                .get("api/director/{id}", id)
-                .then()
-                .statusCode(404);
-
-    }
-
-    @Test
-    @Order(3)
     void shouldSaveADirector() {
         DirectorDTO expected = DirectorDTO.builder()
                 .id(4)
@@ -118,5 +99,24 @@ public class DirectorIntegrationTest extends BaseIntegrationTest {
         assertThat(actual)
                 .usingRecursiveComparison()
                 .isEqualTo(expected);
+    }
+
+    @Test
+    @Order(3)
+    void shouldDeleteById() {
+        final Integer id = 3;
+
+        given()
+                .port(this.port)
+                .delete("api/director/delete/{id}", id)
+                .then()
+                .statusCode(200);
+
+        given()
+                .port(this.port)
+                .get("api/director/{id}", id)
+                .then()
+                .statusCode(404);
+
     }
 }
