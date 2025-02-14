@@ -27,7 +27,7 @@ public class FilmMapper implements BasicMethodMapping<FilmDTO, Film> {
         Film film = Film.builder()
                 .id(filmDTO.getId())
                 .title(filmDTO.getTitle())
-                .date(filmDTO.getDate())
+                .release_date(filmDTO.getRelease_date())
                 .category(filmDTO.getCategory())
                 .build();
 
@@ -55,7 +55,7 @@ public class FilmMapper implements BasicMethodMapping<FilmDTO, Film> {
         return FilmDTO.builder()
                 .id(film.getId())
                 .title(film.getTitle())
-                .date(film.getDate())
+                .release_date(film.getRelease_date())
                 .category(film.getCategory())
                 .director(directorMapper.mapToDto(film.getDirector()))
                 .actors(list)

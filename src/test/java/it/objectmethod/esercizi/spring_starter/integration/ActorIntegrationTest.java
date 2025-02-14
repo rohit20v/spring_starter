@@ -279,5 +279,4 @@ public class ActorIntegrationTest extends BaseIntegrationTest {
                 .then()
                 .statusCode(404);
     }
-
 }

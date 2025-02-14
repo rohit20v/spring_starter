@@ -1,7 +1,7 @@
--- DROP TABLE IF EXISTS film_actor;
--- DROP TABLE IF EXISTS film;
--- DROP TABLE IF EXISTS directors;
--- DROP TABLE IF EXISTS actors;
+DROP TABLE IF EXISTS film_actor;
+DROP TABLE IF EXISTS film;
+DROP TABLE IF EXISTS directors;
+DROP TABLE IF EXISTS actors;
 
 create table actors
 (
@@ -24,7 +24,7 @@ create table film
 (
     id          int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title       varchar(100) not null,
-    date        timestamp(6) not null,
+    release_date        timestamp(6) not null,
     category    varchar(50)  not null,
     id_director int null,
     constraint film_ibfk_1

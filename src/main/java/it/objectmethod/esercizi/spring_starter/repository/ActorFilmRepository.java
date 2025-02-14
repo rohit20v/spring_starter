@@ -11,7 +11,7 @@ import java.util.List;
 public interface ActorFilmRepository extends JpaRepository<ActorFilm, Integer>, JpaSpecificationExecutor<ActorFilm> {
     @Query("""
             select new it.objectmethod.esercizi.spring_starter.dto.response.ActorFilmCombination
-                        (a.id, a.name, a.surname, a.city, a.dob, f.id, f.title, f.category, f.date )
+                        (a.id, a.name, a.surname, a.city, a.dob, f.id, f.title, f.category, f.release_date )
                          from Actor a join a.films  f
             """)
     List<ActorFilmCombination> getActorAndFilmInfo();

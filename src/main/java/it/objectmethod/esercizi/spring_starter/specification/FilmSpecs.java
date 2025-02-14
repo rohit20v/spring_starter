@@ -15,7 +15,7 @@ public class FilmSpecs {
         return (root, query, criteriaBuilder) -> {
             Predicate titlePredicate = criteriaBuilder.like(root.get("title"), "%" + title + "%");
             Predicate datePredicate = criteriaBuilder.equal(
-                    criteriaBuilder.function("date", Date.class, root.get("date")),
+                    criteriaBuilder.function("release_date", Date.class, root.get("release_date")),
                     date
             );
             Predicate categoryPredicate = criteriaBuilder.like(root.get("category"), "%" + category + "%");
@@ -27,7 +27,7 @@ public class FilmSpecs {
     }
 
     public static Specification<Film> findByAllColumns(FilmDTO filmDTO) {
-        return findByAllColumns(filmDTO.getTitle(), filmDTO.getDate(), filmDTO.getCategory(), filmDTO.getDirector().getId());
+        return findByAllColumns(filmDTO.getTitle(), filmDTO.getRelease_date(), filmDTO.getCategory(), filmDTO.getDirector().getId());
     }
 
     public static Specification<Film> findFilmsByActorId(Integer id) {

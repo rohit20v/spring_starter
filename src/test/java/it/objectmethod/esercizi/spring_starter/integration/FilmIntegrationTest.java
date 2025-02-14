@@ -31,7 +31,7 @@ public class FilmIntegrationTest extends BaseIntegrationTest {
             FilmDTO.builder()
                     .id(1)
                     .title("Inception")
-                    .date(simpleDateFormat.parse("2010-09-24"))
+                    .release_date(simpleDateFormat.parse("2010-09-24"))
                     .category("Sci-fi/Action")
                     .director(
                             DirectorDTO.builder()
@@ -50,7 +50,7 @@ public class FilmIntegrationTest extends BaseIntegrationTest {
             FilmDTO.builder()
                     .id(2)
                     .title("Interstellar")
-                    .date(simpleDateFormat.parse("2014-04-20"))
+                    .release_date(simpleDateFormat.parse("2014-04-20"))
                     .category("Sci-fi/Action")
                     .director(
                             DirectorDTO.builder()
@@ -69,7 +69,7 @@ public class FilmIntegrationTest extends BaseIntegrationTest {
             FilmDTO.builder()
                     .id(3)
                     .title("Shrek")
-                    .date(simpleDateFormat.parse("2005-04-20"))
+                    .release_date(simpleDateFormat.parse("2005-04-20"))
                     .category("Kid")
                     .director(null)
                     .actors(emptyList())
@@ -110,7 +110,7 @@ public class FilmIntegrationTest extends BaseIntegrationTest {
         final FilmDTO expected = FilmDTO.builder()
                 .id(id)
                 .title("Inception")
-                .date(parse)
+                .release_date(parse)
                 .category("Sci-fi/Action")
                 .director(
                         DirectorDTO.builder()

@@ -22,9 +22,9 @@ public class Film {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "release_date", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date date;
+    private Date release_date;
 
     @Column(name = "category", nullable = false)
     private String category;

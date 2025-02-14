@@ -30,7 +30,7 @@ public class ActorFilmMapper {
         return FilmDTO.builder()
                 .id(actorFilmCombination.getFilmId())
                 .title(actorFilmCombination.getFilmTitle())
-                .date(actorFilmCombination.getReleaseDate())
+                .release_date(actorFilmCombination.getReleaseDate())
                 .category(actorFilmCombination.getFilmCategory())
                 .build();
     }

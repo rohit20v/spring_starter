@@ -27,7 +27,7 @@ public class FilmDTO {
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonView({MinimalReq.class})
-    private Date date;
+    private Date release_date;
 
     @NotNull
     @JsonView({MinimalReq.class})
