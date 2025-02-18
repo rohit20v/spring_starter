@@ -12,4 +12,5 @@ public interface AuthorizationRequestRepo extends JpaRepository<AuthorizationReq
 
     <T> Optional<T> findByEmail(String email, Class<T> type);
 
+    boolean existsAuthorizationRequestByEmail(String email);
 }
