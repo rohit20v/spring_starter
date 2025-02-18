@@ -21,9 +21,12 @@ public class CorsFilter extends OncePerRequestFilter {
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
         response.setHeader("Access-Control-Allow-Credentials", "true");
 
-//        if (request.getMethod().equalsIgnoreCase("OPTIONS")) {
-//            response.setStatus(HttpServletResponse.SC_OK);
-//        }
+        /*
+         * Used by front-ent to make sure that backend is working (operation of pre-flight)
+         */
+        if (request.getMethod().equalsIgnoreCase("OPTIONS")) {
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
 
         filterChain.doFilter(request, response);
     }
