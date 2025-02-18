@@ -32,6 +32,5 @@ public final class BasicResponseException extends RuntimeException {
     public static BasicResponseException badRequestException(String message, Object... params) {
         return new BasicResponseException(String.format(message, params), HttpStatus.BAD_REQUEST);
     }
-
 }
 
