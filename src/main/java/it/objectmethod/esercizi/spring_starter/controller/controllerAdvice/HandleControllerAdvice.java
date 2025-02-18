@@ -35,8 +35,8 @@ public class HandleControllerAdvice {
         return new ResponseEntity<>(errorBody, e.getStatusCode());
     }
 
-    @ExceptionHandler({HttpMessageNotReadableException.class})
-    public ResponseEntity<ErrorBody> handleValidation(HttpMessageNotReadableException e) {
+    @ExceptionHandler({HttpMessageNotReadableException.class, NoSuchElementException.class, IllegalArgumentException.class})
+    public ResponseEntity<ErrorBody> handleValidation(Exception e) {
 
         final ErrorBody errorBody = ErrorBody.builder()
                 .message(e.getMessage())
@@ -45,13 +45,14 @@ public class HandleControllerAdvice {
         return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({NoSuchElementException.class})
-    public ResponseEntity<ErrorBody> handleValidation(NoSuchElementException e) {
+//    @ExceptionHandler({UnauthorizedException.class})
+//    public ResponseEntity<ErrorBody> handleUnauthorizedException(UnauthorizedException e) {
+//        final ErrorBody errorBody = ErrorBody.builder()
+//                .message(e.getMessage())
+//                .timestamp(Instant.now())
+//                .build();
+//        return new ResponseEntity<>(errorBody, HttpStatus.UNAUTHORIZED);
+//    }
+//
 
-        final ErrorBody errorBody = ErrorBody.builder()
-                .message(e.getMessage())
-                .timestamp(Instant.now())
-                .build();
-        return new ResponseEntity<>(errorBody, HttpStatus.NOT_FOUND);
-    }
 }

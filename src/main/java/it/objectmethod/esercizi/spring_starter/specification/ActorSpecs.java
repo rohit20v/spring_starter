@@ -2,7 +2,6 @@ package it.objectmethod.esercizi.spring_starter.specification;
 
 import it.objectmethod.esercizi.spring_starter.dto.ActorDTO;
 import it.objectmethod.esercizi.spring_starter.entity.Actor;
-import it.objectmethod.esercizi.spring_starter.entity.Director;
 import it.objectmethod.esercizi.spring_starter.entity.Film;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
@@ -49,7 +48,9 @@ public class ActorSpecs {
         return (Root<Actor> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
 
             Join<Film, Actor> filmJoin = root.join("films");
-            criteriaBuilder.createQuery(Director.class);
+
+//            CriteriaQuery<Director> query1 = criteriaBuilder.createQuery(Director.class);
+//            Root<Film> from = query.from(Film.class);
 
             return criteriaBuilder.equal(filmJoin.get("id"), id);
 

@@ -33,15 +33,14 @@ public class AuthorizationResponseService {
     }
 
     public AuthenticationResponseDTO login(final AuthorizationRequestDTO requestDto) {
-
-        boolean isUserExist = authorizationRequestRepo.existsAuthorizationRequestByEmail(requestDto.email());
-
-        if (!isUserExist) throw new NoSuchElementException();
-        String token = jwtTokenProvider.generateToken(
-                new AuthorizationRequestDTO(requestDto.id(), requestDto.name(), requestDto.email())
+        AuthorizationRequestDTO userFoundByEmail = authorizationRequestRepo.findByEmail(requestDto.email(),
+                AuthorizationRequestDTO.class).orElseThrow(
+                () -> new NoSuchElementException("User with email " + requestDto.email() + " not found")
         );
 
-        AuthorizationRequestDTO userFoundByEmail = authorizationRequestRepo.findByEmail(requestDto.email(), AuthorizationRequestDTO.class).get();
+        String token = jwtTokenProvider.generateToken(
+                new AuthorizationRequestDTO(requestDto.id(), requestDto.name(), requestDto.email()));
+
         return AuthenticationResponseDTO.builder().email(userFoundByEmail.email()).username(userFoundByEmail.name()).token(token).build();
 
     }
