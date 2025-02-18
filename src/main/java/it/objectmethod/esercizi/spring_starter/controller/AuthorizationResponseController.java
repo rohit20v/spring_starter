@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -25,9 +26,9 @@ public class AuthorizationResponseController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody @Validated AuthorizationRequestDTO request) {
-        authorizationResponseService.save(request);
-        return ResponseEntity.ok("User registered successfully");
+    public ResponseEntity<Map<String, String>> signup(@RequestBody @Validated AuthorizationRequestDTO request) {
+        AuthorizationRequestDTO save = authorizationResponseService.save(request);
+        return ResponseEntity.ok(Map.of("message", String.format("User: %s has been registered successfully", save.name())));
     }
 
     @GetMapping("allUsers")

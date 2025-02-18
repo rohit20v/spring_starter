@@ -87,6 +87,7 @@ public class FilmIntegrationTest extends BaseIntegrationTest {
                 .port(super.port)
                 .when()
                 .contentType(ContentType.JSON)
+                .header("Authorization", jwtToken)
                 .get("/api/film/all")
                 .prettyPeek()
                 .then()
@@ -131,6 +132,7 @@ public class FilmIntegrationTest extends BaseIntegrationTest {
                 .port(super.port)
                 .when()
                 .contentType(ContentType.JSON)
+                .header("Authorization", jwtToken)
                 .get("/api/film/{id}", id)
                 .prettyPeek()
                 .then()
@@ -165,6 +167,7 @@ public class FilmIntegrationTest extends BaseIntegrationTest {
                 .when()
                 .queryParam("page", page)
                 .queryParam("size", size)
+                .header("Authorization", jwtToken)
                 .get("api/film/custompage")
                 .prettyPeek()
                 .then()
@@ -197,6 +200,7 @@ public class FilmIntegrationTest extends BaseIntegrationTest {
                 .port(this.port)
                 .contentType(ContentType.JSON)
                 .when()
+                .header("Authorization", jwtToken)
                 .get("api/film/custompage")
                 .prettyPeek()
                 .then()
@@ -218,12 +222,14 @@ public class FilmIntegrationTest extends BaseIntegrationTest {
 
         given()
                 .port(this.port)
+                .header("Authorization", jwtToken)
                 .delete("/api/film/delete/{id}", id)
                 .then()
                 .statusCode(200);
 
         given()
                 .port(this.port)
+                .header("Authorization", jwtToken)
                 .get("api/film/{id}", id)
                 .then()
                 .statusCode(404);

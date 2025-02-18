@@ -75,6 +75,8 @@ public class JwtTokenProvider {
      * @return i claims estratti dal token
      */
     private Claims extractAllClaims(final String token) {
+//        if (token == null || token.isEmpty())
+//            throw new IllegalArgumentException("User is unauthorized");
         return Jwts.parserBuilder()
                 .setSigningKey(SECRET_KEY)
                 .build()
@@ -129,9 +131,9 @@ public class JwtTokenProvider {
      * @return true se il token è valido, false altrimenti
      */
     public Boolean isValid(final String token) {
-//        final Claims claims = extractAllClaims(token);
-//        if (extractExpiration(token).equals(claims.getExpiration())) return Boolean.TRUE;
-//        return Boolean.FALSE;
-        return isTokenExpired(token);
+        final Claims claims = extractAllClaims(token);
+        if (extractExpiration(token).equals(claims.getExpiration())) return Boolean.TRUE;
+        return Boolean.FALSE;
+//        return isTokenExpired(token);
     }
 }

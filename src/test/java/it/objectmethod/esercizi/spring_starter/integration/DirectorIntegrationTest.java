@@ -46,6 +46,7 @@ public class DirectorIntegrationTest extends BaseIntegrationTest {
         final List<DirectorDTO> actual = given()
                 .port(this.port)
                 .when()
+                .header("Authorization", jwtToken)
                 .get("/api/director/all")
                 .then()
                 .statusCode(200)
@@ -83,6 +84,7 @@ public class DirectorIntegrationTest extends BaseIntegrationTest {
                 .contentType(ContentType.JSON)
                 .when()
                 .body(given)
+                .header("Authorization", jwtToken)
                 .post("/api/director/save")
                 .then()
                 .statusCode(201)
@@ -108,12 +110,14 @@ public class DirectorIntegrationTest extends BaseIntegrationTest {
 
         given()
                 .port(this.port)
+                .header("Authorization", jwtToken)
                 .delete("api/director/delete/{id}", id)
                 .then()
                 .statusCode(200);
 
         given()
                 .port(this.port)
+                .header("Authorization", jwtToken)
                 .get("api/director/{id}", id)
                 .then()
                 .statusCode(404);

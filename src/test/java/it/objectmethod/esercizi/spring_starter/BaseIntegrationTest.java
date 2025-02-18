@@ -9,7 +9,11 @@ import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.github.tomakehurst.wiremock.matching.StringValuePattern;
 import com.github.tomakehurst.wiremock.stubbing.ServeEvent;
 import com.github.tomakehurst.wiremock.stubbing.StubMapping;
+import io.restassured.http.ContentType;
+import it.objectmethod.esercizi.spring_starter.dto.auth.AuthenticationResponseDTO;
+import it.objectmethod.esercizi.spring_starter.dto.auth.AuthorizationRequestDTO;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +39,7 @@ import java.util.stream.Collectors;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+import static io.restassured.RestAssured.given;
 
 /**
  * Classe base astratta per i test di integrazione. Fornisce metodi di utilità per la gestione del caching,
@@ -43,17 +48,21 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = SpringStarterApplication.class)
 @ActiveProfiles({"test"})
+//@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS) // RESET APPLICATION CONTEXT AND RESET DB
 @Sql(scripts = {
         "classpath:/dbH2/01-truncate.sql",
         "classpath:/dbH2/02-insert-actor.sql",
         "classpath:/dbH2/03-insert-director.sql",
         "classpath:/dbH2/04-insert-films.sql",
-        "classpath:/dbH2/05-insert-film-actor.sql"
+        "classpath:/dbH2/05-insert-film-actor.sql",
+        "classpath:/dbH2/06-insert-user.sql"
 }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
 public abstract class BaseIntegrationTest {
 
     @LocalServerPort
     protected int port;
+
+    protected String jwtToken;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -68,6 +77,27 @@ public abstract class BaseIntegrationTest {
      */
     public static WireMockExtension createStub() {
         return WireMockExtension.newInstance().failOnUnmatchedRequests(true).options(wireMockConfig().dynamicPort().notifier(new Slf4jNotifier(true))).build();
+    }
+
+
+    @BeforeEach
+    void setup() {
+        AuthorizationRequestDTO given = AuthorizationRequestDTO.builder()
+                .name("rohit")
+                .email("boom.bam@gmail.co")
+                .build();
+
+        AuthenticationResponseDTO response = given()
+                .port(port)
+                .contentType(ContentType.JSON)
+                .when()
+                .body(given)
+                .post("/api/auth/login")
+                .then()
+                .extract()
+                .as(AuthenticationResponseDTO.class);
+
+        this.jwtToken = response.token();
     }
 
     /**

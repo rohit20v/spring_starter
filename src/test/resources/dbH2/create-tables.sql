@@ -2,6 +2,7 @@
 -- DROP TABLE IF EXISTS film;
 -- DROP TABLE IF EXISTS directors;
 -- DROP TABLE IF EXISTS actors;
+-- DROP TABLE IF EXISTS users;
 
 create table actors
 (
@@ -22,11 +23,11 @@ create table directors
 
 create table film
 (
-    id          int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    title       varchar(100) not null,
-    release_date        timestamp(6) not null,
-    category    varchar(50)  not null,
-    id_director int null,
+    id           int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    title        varchar(100) not null,
+    release_date timestamp(6) not null,
+    category     varchar(50)  not null,
+    id_director  int null,
     constraint film_ibfk_1
         foreign key (id_director) references directors (id)
 );
@@ -48,3 +49,9 @@ create table film_actor
 create index id_actor
     on film_actor (id_actor);
 
+create table users
+(
+    id    int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name  varchar(50)  not null,
+    email varchar(100) not null
+)
