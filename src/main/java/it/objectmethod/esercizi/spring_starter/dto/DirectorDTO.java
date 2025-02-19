@@ -3,6 +3,7 @@ package it.objectmethod.esercizi.spring_starter.dto;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import it.objectmethod.esercizi.spring_starter.annotation.CustomAnnotation;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,7 @@ public class DirectorDTO {
     private Integer id;
 
     @NotEmpty
+    @NotBlank
     @CustomAnnotation(message = "ain't uppercase")
     private String name;
 
