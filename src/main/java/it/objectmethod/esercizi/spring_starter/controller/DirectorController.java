@@ -59,7 +59,7 @@ public class DirectorController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<DirectorDTO> save(@RequestBody DirectorDTO dto) {
+    public ResponseEntity<DirectorDTO> save(@RequestBody @Validated DirectorDTO dto) {
         if (dto == null) return ResponseEntity.badRequest().build();
         DirectorDTO newDto = directorService.save(dto);
         return new ResponseEntity<>(newDto, HttpStatus.CREATED);

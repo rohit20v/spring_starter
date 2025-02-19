@@ -3,6 +3,7 @@ package it.objectmethod.esercizi.spring_starter.dto;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import it.objectmethod.esercizi.spring_starter.annotation.CustomAnnotation;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,20 +18,24 @@ import java.util.List;
 @Builder
 @Data
 @JsonView({FilmDTO.MinimalReq.class})
+
 public class DirectorDTO {
     //    @NotNull(groups = {PUT.class, Default.class})
     private Integer id;
 
-    //    @NotNull
+    @NotEmpty
     @CustomAnnotation(message = "ain't uppercase")
     private String name;
 
-    //    @NotNull
+    @NotEmpty
     private String surname;
 
-    //    @NotNull
+    @NotEmpty
     private String city;
     @JsonView({FilmDTO.Extra.class})
 
     private List<Integer> films = new ArrayList<>();
+
 }
+
+

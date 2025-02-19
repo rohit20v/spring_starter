@@ -7,6 +7,7 @@ import it.objectmethod.esercizi.spring_starter.util.PaginationResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -101,7 +102,7 @@ public class FilmController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<FilmDTO> save(@RequestBody FilmDTO dto) {
+    public ResponseEntity<FilmDTO> save(@RequestBody @Validated FilmDTO dto) {
         if (dto == null) return ResponseEntity.badRequest().build();
         FilmDTO newDto = filmService.save(dto);
         return ResponseEntity.ok(newDto);
