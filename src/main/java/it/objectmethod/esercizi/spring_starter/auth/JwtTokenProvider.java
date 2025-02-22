@@ -1,10 +1,14 @@
 package it.objectmethod.esercizi.spring_starter.auth;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import it.objectmethod.esercizi.spring_starter.controller.controllerAdvice.UnauthorizedException;
 import it.objectmethod.esercizi.spring_starter.dto.auth.AuthorizationRequestDTO;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -75,22 +79,29 @@ public class JwtTokenProvider {
      * @return i claims estratti dal token
      */
     private Claims extractAllClaims(final String token) {
-//        if (token == null || token.isEmpty())
-//            throw new IllegalArgumentException("User is unauthorized");
-        return Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-    }
+        if (token == null || token.isEmpty()) {
+            throw new UnauthorizedException("Token is missing", HttpStatus.UNAUTHORIZED);
+        }
 
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(SECRET_KEY)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            throw new UnauthorizedException("Token expired", HttpStatus.UNAUTHORIZED);
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new UnauthorizedException("Invalid token", HttpStatus.UNAUTHORIZED);
+        }
+    }
     /**
      * Verifica se il token JWT è scaduto.
      *
      * @param token il token JWT da verificare
      * @return true se il token è scaduto, false altrimenti
      */
-    private Boolean isTokenExpired(final String token) {
+    public Boolean isTokenExpired(final String token) {
         return extractExpiration(token).before(new Date());
     }
 
