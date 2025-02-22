@@ -1,6 +1,5 @@
-package it.objectmethod.esercizi.spring_starter.util;
+package it.objectmethod.esercizi.spring_starter.auth;
 
-import it.objectmethod.esercizi.spring_starter.auth.JwtTokenProvider;
 import it.objectmethod.esercizi.spring_starter.controller.controllerAdvice.UnauthorizedException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
