@@ -1,10 +1,12 @@
 package it.objectmethod.esercizi.spring_starter.util;
 
 import it.objectmethod.esercizi.spring_starter.auth.JwtTokenProvider;
+import it.objectmethod.esercizi.spring_starter.controller.controllerAdvice.UnauthorizedException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -13,8 +15,8 @@ import java.io.IOException;
 import java.util.Objects;
 
 @Component
+@Order(1)
 public class AccessFilter extends OncePerRequestFilter {
-    private static final String POST = "POST";
     private static final String AUTH_ENDPOINT = "/api/auth";
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -27,8 +29,17 @@ public class AccessFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        /*
+         * Used by front-ent to make sure that backend is working (operation of pre-flight)
+         */
+        if (request.getMethod().equalsIgnoreCase("OPTIONS")) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
+
         final String jwtToken = request.getHeader("Authorization");
         String requestURI = request.getRequestURI() != null ? request.getRequestURI() : "";
+
 
         if (!requestURI.startsWith(AUTH_ENDPOINT)) {
             if (Objects.isNull(jwtToken) || !isAuthenticated(jwtToken)) {
@@ -40,6 +51,9 @@ public class AccessFilter extends OncePerRequestFilter {
     }
 
     private Boolean isAuthenticated(final String jwtToken) {
-        return jwtTokenProvider.isValid(jwtToken);
+        if (!jwtTokenProvider.isValid(jwtToken) || jwtTokenProvider.isTokenExpired(jwtToken))
+            throw new UnauthorizedException("User is not authenticated", HttpStatus.UNAUTHORIZED);
+
+        return true;
     }
 }
