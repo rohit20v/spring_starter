@@ -44,15 +44,4 @@ public class HandleControllerAdvice {
                 .build();
         return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
     }
-
-//    @ExceptionHandler({UnauthorizedException.class})
-//    public ResponseEntity<ErrorBody> handleUnauthorizedException(UnauthorizedException e) {
-//        final ErrorBody errorBody = ErrorBody.builder()
-//                .message(e.getMessage())
-//                .timestamp(Instant.now())
-//                .build();
-//        return new ResponseEntity<>(errorBody, HttpStatus.UNAUTHORIZED);
-//    }
-//
-
 }
