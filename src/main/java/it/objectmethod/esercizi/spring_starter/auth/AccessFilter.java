@@ -30,6 +30,9 @@ public class AccessFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         /*
          * Used by front-ent to make sure that backend is working (operation of pre-flight)
+         * A preflight request is an automatic browser initiated OPTIONS request that takes
+         * occurs before certain cors-origin requests to ensure that backend/server is working,
+         * so that server accepts the upcoming request method, header and credentials.
          */
         if (request.getMethod().equalsIgnoreCase("OPTIONS")) {
             response.setStatus(HttpServletResponse.SC_OK);
