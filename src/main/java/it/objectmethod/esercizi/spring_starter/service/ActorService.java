@@ -19,10 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static it.objectmethod.esercizi.spring_starter.controller.controllerAdvice.BasicResponseException.badRequestException;
 import static it.objectmethod.esercizi.spring_starter.controller.controllerAdvice.BasicResponseException.notFoundException;
@@ -109,11 +106,9 @@ public class ActorService {
     }
 
     public ActorDTO update(ActorDTO dto) {
-        boolean exists = actorRepository.existsById(actorMapperWIthMapstruct.toEntity(dto).getId());
-        if (exists) {
-            return this.save(dto);
-        }
-        return null;
+        if (!actorRepository.existsById(dto.getId()))
+            throw new NoSuchElementException(String.format("Actor with id '%d' does not exist", dto.getId()));
+        return this.save(dto);
     }
 
     public List<ActorDTO> getActorsFilteredByCityUsingJPQL(String city) {
