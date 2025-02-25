@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.Instant;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -44,4 +45,15 @@ public class HandleControllerAdvice {
                 .build();
         return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<ErrorBody> handleValidation(SQLIntegrityConstraintViolationException e) {
+
+        final ErrorBody errorBody = ErrorBody.builder()
+                .message(e.getLocalizedMessage().contains("email") ? "User already exists" : e.getLocalizedMessage())
+                .timestamp(Instant.now())
+                .build();
+        return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
+    }
+
 }

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Service
 public class FilmService {
@@ -104,6 +105,8 @@ public class FilmService {
     }
 
     public FilmDTO update(FilmDTO dto) {
+        if (!filmRepository.existsById(dto.getId()))
+            throw new NoSuchElementException(String.format("Film with id '%d' does not exist", dto.getId()));
         return this.save(dto);
     }
 

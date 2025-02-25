@@ -33,9 +33,9 @@ public class AuthorizationResponseService {
     }
 
     public AuthenticationResponseDTO login(final AuthorizationRequestDTO requestDto) {
-        AuthorizationRequestDTO userFoundByEmail = authorizationRequestRepo.findByEmail(requestDto.email(),
+        AuthorizationRequestDTO userFoundByEmail = authorizationRequestRepo.findByEmailAndName(requestDto.email(), requestDto.name(),
                 AuthorizationRequestDTO.class).orElseThrow(
-                () -> new NoSuchElementException("User with email " + requestDto.email() + " not found")
+                () -> new NoSuchElementException(String.format("User with email: %s and name: %s not found", requestDto.email(), requestDto.name()))
         );
 
         String token = jwtTokenProvider.generateToken(

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Service
 public class DirectorService {
@@ -91,6 +92,8 @@ public class DirectorService {
     }
 
     public DirectorDTO update(DirectorDTO dto) {
+        if (!directorRepository.existsById(dto.getId()))
+            throw new NoSuchElementException(String.format("Director with id '%d' does not exist", dto.getId()));
         return this.save(dto);
     }
 }
