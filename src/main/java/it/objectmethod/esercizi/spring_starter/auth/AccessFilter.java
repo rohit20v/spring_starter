@@ -39,9 +39,14 @@ public class AccessFilter extends OncePerRequestFilter {
             return;
         }
 
-        final String jwtToken = request.getHeader("Authorization");
         String requestURI = request.getRequestURI() != null ? request.getRequestURI() : "";
 
+        if (requestURI.startsWith("/api/film") && request.getMethod().equalsIgnoreCase("GET")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        final String jwtToken = request.getHeader("Authorization");
 
         if (!requestURI.startsWith(AUTH_ENDPOINT)) {
             if (Objects.isNull(jwtToken) || !isAuthenticated(jwtToken)) {
