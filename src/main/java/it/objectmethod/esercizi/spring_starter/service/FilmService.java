@@ -40,6 +40,12 @@ public class FilmService {
         return filmMapperWithMapstruct.toDTO(filmRepository.getFilmById(id));
     }
 
+    public FilmActorDTO getFilmActorDTOById(Integer id) {
+        return filmWithActorMapping.toDTO(filmRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException(String.format("No film with id: %d is found", id))
+        ));
+    }
+
     public List<FilmDTO> getFilms() {
         return filmMapperWithMapstruct.toDTOs(filmRepository.findAll());
     }

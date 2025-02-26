@@ -107,6 +107,11 @@ public class FilmController {
         return ResponseEntity.ok(filmById);
     }
 
+    @GetMapping("/a/{id}")
+    public ResponseEntity<FilmActorDTO> getFilmActorDTOById(@PathVariable final Integer id) {
+        return ResponseEntity.ok(filmService.getFilmActorDTOById(id));
+    }
+
     @PostMapping("/save")
     public ResponseEntity<FilmDTO> save(@RequestBody @Validated FilmDTO dto) {
         if (dto == null) return ResponseEntity.badRequest().build();
