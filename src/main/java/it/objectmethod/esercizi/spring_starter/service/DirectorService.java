@@ -1,6 +1,7 @@
 package it.objectmethod.esercizi.spring_starter.service;
 
 import it.objectmethod.esercizi.spring_starter.dto.DirectorDTO;
+import it.objectmethod.esercizi.spring_starter.dto.IdNameDirectorDTO;
 import it.objectmethod.esercizi.spring_starter.entity.Director;
 import it.objectmethod.esercizi.spring_starter.mapper.DirectorMapper;
 import it.objectmethod.esercizi.spring_starter.mapper.DirectorMapperWithMapstruct;
@@ -37,6 +38,10 @@ public class DirectorService {
 
     public List<DirectorDTO> getAllDirectors() {
         return directorMapperWithMapstruct.toDTOs(directorRepository.findAll());
+    }
+
+    public List<IdNameDirectorDTO> getAllDirectorsIdAndName() {
+        return directorRepository.getMeAll(IdNameDirectorDTO.class);
     }
 
     public PaginationResponse<DirectorDTO> getDirectorPages(Pageable pageable) {

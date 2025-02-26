@@ -1,10 +1,7 @@
 package it.objectmethod.esercizi.spring_starter.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import it.objectmethod.esercizi.spring_starter.dto.ActorCompleteDTO;
-import it.objectmethod.esercizi.spring_starter.dto.ActorDTO;
-import it.objectmethod.esercizi.spring_starter.dto.ActorRecord;
-import it.objectmethod.esercizi.spring_starter.dto.FilmDTO;
+import it.objectmethod.esercizi.spring_starter.dto.*;
 import it.objectmethod.esercizi.spring_starter.service.ActorService;
 import it.objectmethod.esercizi.spring_starter.util.PaginationResponse;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,6 +31,11 @@ public class ActorController {
     @GetMapping("/all")
     public List<ActorDTO> getAll() {
         return actorService.getAll();
+    }
+
+    @GetMapping("/allIdName")
+    public ResponseEntity<List<IdNameActorDTO>> getAllActorsIdName() {
+        return ResponseEntity.ok(actorService.getAllActorsIdAndName());
     }
 
     @GetMapping("/allPage")

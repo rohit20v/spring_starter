@@ -4,10 +4,15 @@ import it.objectmethod.esercizi.spring_starter.entity.Director;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 public interface DirectorRepository extends JpaRepository<Director, Integer>, JpaSpecificationExecutor<Director> {
     Director getDirectorsById(Integer id);
 
+    @Query(value = "SELECT id, name FROM directors", nativeQuery = true)
+    <T> List<T> getMeAll(Class<T> classCompiled);
 
     interface Specs {
         static Specification<Director> findAllDirectorsWithFilteredName(String name) {

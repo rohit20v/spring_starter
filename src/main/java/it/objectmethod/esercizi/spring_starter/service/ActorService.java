@@ -5,6 +5,7 @@ import it.objectmethod.esercizi.spring_starter.dao.ActorSearchDAO;
 import it.objectmethod.esercizi.spring_starter.dto.ActorCompleteDTO;
 import it.objectmethod.esercizi.spring_starter.dto.ActorDTO;
 import it.objectmethod.esercizi.spring_starter.dto.ActorRecord;
+import it.objectmethod.esercizi.spring_starter.dto.IdNameActorDTO;
 import it.objectmethod.esercizi.spring_starter.entity.Actor;
 import it.objectmethod.esercizi.spring_starter.mapper.ActorCompleteMapstruct;
 import it.objectmethod.esercizi.spring_starter.mapper.ActorMapper;
@@ -47,6 +48,10 @@ public class ActorService {
         return actorMapperWIthMapstruct.toDTO(actorRepository.findById(id)
                 .orElseThrow(
                         () -> notFoundException("Could not find actor on %s with id %d", Actor.class.getSimpleName(), id)));
+    }
+
+    public List<IdNameActorDTO> getAllActorsIdAndName() {
+        return actorRepository.findAll(IdNameActorDTO.class);
     }
 
     public List<ActorDTO> getAll() {

@@ -1,6 +1,7 @@
 package it.objectmethod.esercizi.spring_starter.controller;
 
 import it.objectmethod.esercizi.spring_starter.dto.DirectorDTO;
+import it.objectmethod.esercizi.spring_starter.dto.IdNameDirectorDTO;
 import it.objectmethod.esercizi.spring_starter.service.DirectorService;
 import it.objectmethod.esercizi.spring_starter.util.PaginationResponse;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,11 @@ public class DirectorController {
     public ResponseEntity<List<DirectorDTO>> getAllDirectors() {
         if (directorService.getAllDirectors().isEmpty()) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(directorService.getAllDirectors());
+    }
+
+    @GetMapping("/allIdName")
+    public ResponseEntity<List<IdNameDirectorDTO>> getAllDirectorsIdName() {
+        return ResponseEntity.ok(directorService.getAllDirectorsIdAndName());
     }
 
     @GetMapping("/by")
