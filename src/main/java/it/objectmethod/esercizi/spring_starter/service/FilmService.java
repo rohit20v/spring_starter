@@ -1,10 +1,12 @@
 package it.objectmethod.esercizi.spring_starter.service;
 
+import it.objectmethod.esercizi.spring_starter.dto.FilmActorDTO;
 import it.objectmethod.esercizi.spring_starter.dto.FilmDTO;
 import it.objectmethod.esercizi.spring_starter.dto.FilmRecord;
 import it.objectmethod.esercizi.spring_starter.entity.Film;
 import it.objectmethod.esercizi.spring_starter.mapper.FilmMapper;
 import it.objectmethod.esercizi.spring_starter.mapper.FilmMapperWithMapstruct;
+import it.objectmethod.esercizi.spring_starter.mapper.FilmWithActorMapping;
 import it.objectmethod.esercizi.spring_starter.repository.FilmRepository;
 import it.objectmethod.esercizi.spring_starter.specification.FilmSpecs;
 import it.objectmethod.esercizi.spring_starter.specification.GeneralSpec;
@@ -25,11 +27,13 @@ public class FilmService {
     private final FilmRepository filmRepository;
 
     private final FilmMapperWithMapstruct filmMapperWithMapstruct;
+    private final FilmWithActorMapping filmWithActorMapping;
 
-    public FilmService(FilmMapper filmMapper, FilmRepository filmRepository, FilmMapperWithMapstruct filmMapperWithMapstruct) {
+    public FilmService(FilmMapper filmMapper, FilmRepository filmRepository, FilmMapperWithMapstruct filmMapperWithMapstruct, FilmWithActorMapping filmWithActorMapping) {
         this.filmMapper = filmMapper;
         this.filmRepository = filmRepository;
         this.filmMapperWithMapstruct = filmMapperWithMapstruct;
+        this.filmWithActorMapping = filmWithActorMapping;
     }
 
     public FilmDTO getFilmById(Integer id) {
@@ -38,6 +42,10 @@ public class FilmService {
 
     public List<FilmDTO> getFilms() {
         return filmMapperWithMapstruct.toDTOs(filmRepository.findAll());
+    }
+
+    public List<FilmActorDTO> filmWithActorDetails() {
+        return filmWithActorMapping.toDTOs(filmRepository.findAll());
     }
 
     public PaginationResponse<FilmDTO> getCustomFilmPages(final Integer page, final Integer size) {
@@ -68,7 +76,7 @@ public class FilmService {
     }
 
     public List<FilmDTO> findByAllParams(Map<String, String> map) {
-        return filmMapperWithMapstruct.toDTOs(filmRepository.findAll(GeneralSpec.<Film>findByAllParams(map)));
+        return filmMapperWithMapstruct.toDTOs(filmRepository.findAll(GeneralSpec.findByAllParams(map)));
     }
 
     public List<FilmDTO> getFilmsUsingSpecificationDtoParams(FilmDTO filmDTO) {
