@@ -39,9 +39,9 @@ public class AuthorizationResponseService {
         );
 
         String token = jwtTokenProvider.generateToken(
-                new AuthorizationRequestDTO(requestDto.id(), requestDto.name(), requestDto.email()));
+                new AuthorizationRequestDTO(userFoundByEmail.id(), userFoundByEmail.name(), userFoundByEmail.email()));
 
-        return AuthenticationResponseDTO.builder().email(userFoundByEmail.email()).username(userFoundByEmail.name()).token(token).build();
+        return AuthenticationResponseDTO.builder().username(userFoundByEmail.name()).token(token).build();
 
     }
 

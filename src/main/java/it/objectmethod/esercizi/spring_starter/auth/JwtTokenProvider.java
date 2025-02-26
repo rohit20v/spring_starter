@@ -100,8 +100,8 @@ public class JwtTokenProvider {
      */
     public String generateToken(final AuthorizationRequestDTO request) {
         final Map<String, String> claims = new HashMap<>();
-        claims.put("name", request.name());
-        return createToken(claims, request.email());
+        claims.put("id", request.id().toString());
+        return createToken(claims, request.name());
     }
 
     /**

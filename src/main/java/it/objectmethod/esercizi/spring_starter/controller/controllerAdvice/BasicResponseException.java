@@ -25,7 +25,7 @@ public final class BasicResponseException extends RuntimeException {
     }
 
     public static BasicResponseException notFoundException(String message, Object... params) {
-        return new BasicResponseException(String
+        throw new BasicResponseException(String
                 .format(message, params), HttpStatus.NOT_FOUND);
     }
 

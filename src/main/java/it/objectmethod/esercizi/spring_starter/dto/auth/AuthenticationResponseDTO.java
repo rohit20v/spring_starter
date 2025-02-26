@@ -5,5 +5,5 @@ import lombok.Builder;
 
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record AuthenticationResponseDTO (String token, String username, String email) {
+public record AuthenticationResponseDTO (String token, String username) {
 }
