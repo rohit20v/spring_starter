@@ -134,9 +134,8 @@ public class FilmController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> delete(@PathVariable final Integer id) {
-//        if (filmService.getFilmById(id) == null) ResponseEntity.ok("Film doesn't exist");
+    public ResponseEntity<Map<String, String>> delete(@PathVariable final Integer id) {
         filmService.delete(id);
-        return ResponseEntity.ok("Film deleted successfully");
+        return ResponseEntity.ok(Map.of("message", "Film deleted successfully"));
     }
 }
