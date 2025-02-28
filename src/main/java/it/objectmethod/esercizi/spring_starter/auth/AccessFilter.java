@@ -41,7 +41,10 @@ public class AccessFilter extends OncePerRequestFilter {
 
         String requestURI = request.getRequestURI() != null ? request.getRequestURI() : "";
 
-        if (requestURI.startsWith("/api/film") && request.getMethod().equalsIgnoreCase("GET")) {
+        if ((requestURI.startsWith("/api/film") ||
+             requestURI.startsWith("/api/director") ||
+             requestURI.startsWith("/api/actor")) &&
+            request.getMethod().equalsIgnoreCase("GET")) {
             filterChain.doFilter(request, response);
             return;
         }
