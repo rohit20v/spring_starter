@@ -4,8 +4,6 @@ import it.objectmethod.esercizi.spring_starter.dto.FilmActorDTO;
 import it.objectmethod.esercizi.spring_starter.dto.FilmDTO;
 import it.objectmethod.esercizi.spring_starter.dto.FilmRecord;
 import it.objectmethod.esercizi.spring_starter.dto.FilmUpdateDTO;
-import it.objectmethod.esercizi.spring_starter.entity.Actor;
-import it.objectmethod.esercizi.spring_starter.entity.Director;
 import it.objectmethod.esercizi.spring_starter.entity.Film;
 import it.objectmethod.esercizi.spring_starter.mapper.FilmMapper;
 import it.objectmethod.esercizi.spring_starter.mapper.FilmMapperWithMapstruct;
@@ -139,6 +137,7 @@ public class FilmService {
     }
 
     public void delete(Integer id) {
+        if (!filmRepository.existsById(id)) throw new NoSuchElementException("The Film with id: " + id + " does not exist");
         filmRepository.deleteById(id);
     }
 
