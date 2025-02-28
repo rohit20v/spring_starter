@@ -17,11 +17,10 @@ public interface ActorRepository extends JpaRepository<Actor, Integer>, JpaSpeci
 
     Optional<Actor> findByCity(String city);
 
-    @Query(value = "SELECT id, name FROM actors", nativeQuery = true)
-    <T> List<T> findAll(Class<T> type);
-
     <T> Optional<T> findByCity(String city, Class<T> classname);
 
+    @Query(value = "SELECT id, name FROM actors", nativeQuery = true)
+    <T> List<T> findAll(Class<T> type);
 //    @Query("select a.films from Actor a where a.id = :id")
 //    Optional<List<Film>> getFilmsByActorID(Integer id);
 
