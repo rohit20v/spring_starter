@@ -17,31 +17,28 @@ import java.util.List;
 @Builder
 public class FilmDTO {
 
-    @JsonView({MinimalReq.class})
+    @JsonView({BasicView.class, DetailedView.class})
     private Integer id;
 
     @NotNull
-    @JsonView({MinimalReq.class})
+    @JsonView({BasicView.class, DetailedView.class})
     private String title;
 
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonView({MinimalReq.class})
+    @JsonView({BasicView.class, DetailedView.class})
     private Date release_date;
 
     @NotNull
-    @JsonView({MinimalReq.class})
+    @JsonView({BasicView.class, DetailedView.class})
     private String category;
 
-    @JsonView({MinimalReq.class})
+    @JsonView({DetailedView.class})
     private DirectorDTO director;
 
     private List<Integer> actors;
 
-    public interface Extra {
-    }
-
-    public interface MinimalReq {
-    }
+    public interface BasicView {}
+    public interface DetailedView {}
+    public interface Extra {}
 }
-

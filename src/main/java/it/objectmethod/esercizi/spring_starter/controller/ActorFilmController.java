@@ -21,7 +21,7 @@ public class ActorFilmController {
         this.actorFilmService = actorFilmService;
     }
 
-    @JsonView({FilmDTO.MinimalReq.class})
+    @JsonView({FilmDTO.BasicView.class})
     @GetMapping("/withFilm")
     public Map<Integer, ActorFilmResponse> getAllInfo() {
         return actorFilmService.getAllActorFilmResponse();

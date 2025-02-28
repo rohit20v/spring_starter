@@ -24,7 +24,7 @@ import java.util.*;
 
 import static it.objectmethod.esercizi.spring_starter.controller.controllerAdvice.BasicResponseException.badRequestException;
 import static it.objectmethod.esercizi.spring_starter.controller.controllerAdvice.BasicResponseException.notFoundException;
-import static it.objectmethod.esercizi.spring_starter.dto.FilmDTO.MinimalReq;
+import static it.objectmethod.esercizi.spring_starter.dto.FilmDTO.BasicView;
 
 @Service
 public class ActorService {
@@ -152,7 +152,7 @@ public class ActorService {
         return dtOs;
     }
 
-    @JsonView({MinimalReq.class})
+    @JsonView({BasicView.class})
     public List<ActorCompleteDTO> getEverything() {
         return actorCompleteMapstruct.mapToDtos(actorRepository.findAll());
     }

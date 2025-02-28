@@ -124,9 +124,15 @@ public class ActorController {
         return actorService.findByNameIn(names);
     }
 
-    @JsonView({FilmDTO.MinimalReq.class})
+    @JsonView({FilmDTO.BasicView.class})
     @GetMapping("/allInfo")
     public List<ActorCompleteDTO> getAllInfo() {
+        return actorService.getEverything();
+    }
+
+    @JsonView({FilmDTO.DetailedView.class})
+    @GetMapping("/allInfoWithDirector")
+    public List<ActorCompleteDTO> getAllInfoWithDirector() {
         return actorService.getEverything();
     }
 

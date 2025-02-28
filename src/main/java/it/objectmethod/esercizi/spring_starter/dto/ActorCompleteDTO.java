@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonView({FilmDTO.MinimalReq.class})
+@JsonView({FilmDTO.BasicView.class, FilmDTO.DetailedView.class})
 public class ActorCompleteDTO {
     private Integer id;
 

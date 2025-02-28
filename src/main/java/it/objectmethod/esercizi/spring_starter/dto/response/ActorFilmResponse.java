@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonView({FilmDTO.MinimalReq.class})
+@JsonView({FilmDTO.BasicView.class})
 public class ActorFilmResponse {
     private Integer actorId;
     private String actorName;

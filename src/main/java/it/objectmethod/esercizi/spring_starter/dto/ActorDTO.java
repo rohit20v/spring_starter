@@ -20,25 +20,25 @@ import java.util.List;
 @CheckInputValidity
 public class ActorDTO {
 
-    @JsonView({FilmDTO.MinimalReq.class})
+    @JsonView({FilmDTO.BasicView.class})
     private Integer id;
 
     @NotNull
-    @JsonView({FilmDTO.MinimalReq.class})
+    @JsonView({FilmDTO.BasicView.class})
     private String name;
 
     @NotNull
-    @JsonView({FilmDTO.MinimalReq.class})
+    @JsonView({FilmDTO.BasicView.class})
     private String surname;
 
     @NotNull
 //    @AvoidFutureDate
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonView({FilmDTO.MinimalReq.class})
+    @JsonView({FilmDTO.BasicView.class})
     private LocalDate dob;
 
     @NotNull
-    @JsonView({FilmDTO.MinimalReq.class})
+    @JsonView({FilmDTO.BasicView.class})
     private String city;
 
     private List<Integer> films = new ArrayList<>();

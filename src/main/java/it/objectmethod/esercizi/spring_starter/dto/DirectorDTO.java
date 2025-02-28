@@ -18,8 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Data
-@JsonView({FilmDTO.MinimalReq.class})
-
+@JsonView({FilmDTO.BasicView.class, FilmDTO.DetailedView.class})
 public class DirectorDTO {
     //    @NotNull(groups = {PUT.class, Default.class})
     private Integer id;
