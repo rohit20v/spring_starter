@@ -3,8 +3,10 @@ package it.objectmethod.esercizi.spring_starter.controller;
 import it.objectmethod.esercizi.spring_starter.dto.FilmActorDTO;
 import it.objectmethod.esercizi.spring_starter.dto.FilmDTO;
 import it.objectmethod.esercizi.spring_starter.dto.FilmRecord;
+import it.objectmethod.esercizi.spring_starter.dto.FilmUpdateDTO;
 import it.objectmethod.esercizi.spring_starter.service.FilmService;
 import it.objectmethod.esercizi.spring_starter.util.PaginationResponse;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -120,10 +122,15 @@ public class FilmController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<FilmDTO> update(@RequestBody FilmDTO dto) {
+    public ResponseEntity<FilmDTO> update(@Validated @RequestBody FilmDTO dto) {
         if (dto == null) return ResponseEntity.badRequest().build();
         FilmDTO newDto = filmService.update(dto);
         return ResponseEntity.ok(newDto);
+    }
+
+    @PutMapping("/update_film")
+    public ResponseEntity<FilmUpdateDTO> update(@Valid @RequestBody FilmUpdateDTO dto) {
+        return ResponseEntity.ok(filmService.update(dto));
     }
 
     @DeleteMapping("/delete/{id}")

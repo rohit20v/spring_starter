@@ -3,9 +3,13 @@ package it.objectmethod.esercizi.spring_starter.service;
 import it.objectmethod.esercizi.spring_starter.dto.FilmActorDTO;
 import it.objectmethod.esercizi.spring_starter.dto.FilmDTO;
 import it.objectmethod.esercizi.spring_starter.dto.FilmRecord;
+import it.objectmethod.esercizi.spring_starter.dto.FilmUpdateDTO;
+import it.objectmethod.esercizi.spring_starter.entity.Actor;
+import it.objectmethod.esercizi.spring_starter.entity.Director;
 import it.objectmethod.esercizi.spring_starter.entity.Film;
 import it.objectmethod.esercizi.spring_starter.mapper.FilmMapper;
 import it.objectmethod.esercizi.spring_starter.mapper.FilmMapperWithMapstruct;
+import it.objectmethod.esercizi.spring_starter.mapper.FilmUpdateMapping;
 import it.objectmethod.esercizi.spring_starter.mapper.FilmWithActorMapping;
 import it.objectmethod.esercizi.spring_starter.repository.FilmRepository;
 import it.objectmethod.esercizi.spring_starter.specification.FilmSpecs;
@@ -28,12 +32,14 @@ public class FilmService {
 
     private final FilmMapperWithMapstruct filmMapperWithMapstruct;
     private final FilmWithActorMapping filmWithActorMapping;
+    private final FilmUpdateMapping filmUpdateMapping;
 
-    public FilmService(FilmMapper filmMapper, FilmRepository filmRepository, FilmMapperWithMapstruct filmMapperWithMapstruct, FilmWithActorMapping filmWithActorMapping) {
+    public FilmService(FilmMapper filmMapper, FilmRepository filmRepository, FilmMapperWithMapstruct filmMapperWithMapstruct, FilmWithActorMapping filmWithActorMapping, FilmUpdateMapping filmUpdateMapping) {
         this.filmMapper = filmMapper;
         this.filmRepository = filmRepository;
         this.filmMapperWithMapstruct = filmMapperWithMapstruct;
         this.filmWithActorMapping = filmWithActorMapping;
+        this.filmUpdateMapping = filmUpdateMapping;
     }
 
     public FilmDTO getFilmById(Integer id) {
@@ -122,6 +128,14 @@ public class FilmService {
         if (!filmRepository.existsById(dto.getId()))
             throw new NoSuchElementException(String.format("Film with id '%d' does not exist", dto.getId()));
         return this.save(dto);
+    }
+
+    public FilmUpdateDTO update(FilmUpdateDTO dto) {
+        if (!filmRepository.existsById(dto.getId()))
+            throw new NoSuchElementException(String.format("Film with id '%d' does not exist", dto.getId()));
+        Film entity = filmUpdateMapping.toEntity(dto);
+        Film save = filmRepository.save(entity);
+        return filmUpdateMapping.toDTO(save);
     }
 
     public void delete(Integer id) {
