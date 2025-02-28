@@ -122,6 +122,12 @@ public class FilmService {
         return filmMapperWithMapstruct.toDTO(save);
     }
 
+    public FilmUpdateDTO save(FilmUpdateDTO dto) {
+        Film entity = filmUpdateMapping.toEntity(dto);
+        Film save = filmRepository.save(entity);
+        return filmUpdateMapping.toDTO(save);
+    }
+
     public FilmDTO update(FilmDTO dto) {
         if (!filmRepository.existsById(dto.getId()))
             throw new NoSuchElementException(String.format("Film with id '%d' does not exist", dto.getId()));

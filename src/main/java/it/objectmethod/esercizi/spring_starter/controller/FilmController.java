@@ -4,6 +4,7 @@ import it.objectmethod.esercizi.spring_starter.dto.FilmActorDTO;
 import it.objectmethod.esercizi.spring_starter.dto.FilmDTO;
 import it.objectmethod.esercizi.spring_starter.dto.FilmRecord;
 import it.objectmethod.esercizi.spring_starter.dto.FilmUpdateDTO;
+import it.objectmethod.esercizi.spring_starter.dto.FilmUpdateDTO.IgnoreId;
 import it.objectmethod.esercizi.spring_starter.service.FilmService;
 import it.objectmethod.esercizi.spring_starter.util.PaginationResponse;
 import jakarta.validation.Valid;
@@ -119,6 +120,12 @@ public class FilmController {
         if (dto == null) return ResponseEntity.badRequest().build();
         FilmDTO newDto = filmService.save(dto);
         return ResponseEntity.ok(newDto);
+    }
+
+    @PostMapping("/save_movie")
+    public ResponseEntity<FilmUpdateDTO> save(@RequestBody @Validated(IgnoreId.class) FilmUpdateDTO dto) {
+        if (dto == null) return ResponseEntity.badRequest().build();
+        return ResponseEntity.ok(filmService.save(dto));
     }
 
     @PutMapping("/update")
