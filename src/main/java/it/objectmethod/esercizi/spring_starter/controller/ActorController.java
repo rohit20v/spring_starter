@@ -34,7 +34,7 @@ public class ActorController {
     }
 
     @GetMapping("/allIdName")
-    public ResponseEntity<List<IdNameActorDTO>> getAllActorsIdName() {
+    public ResponseEntity<List<IdNameDTO>> getAllActorsIdName() {
         return ResponseEntity.ok(actorService.getAllActorsIdAndName());
     }
 
@@ -79,9 +79,9 @@ public class ActorController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteActor(@PathVariable final Integer id) {
+    public ResponseEntity<Map<String, String>> deleteActor(@PathVariable final Integer id) {
         actorService.deleteActorById(id);
-        return ResponseEntity.ok("Actor deleted successfully");
+        return ResponseEntity.ok(Map.of("message", "Actor deleted successfully"));
     }
 
     @GetMapping("/jpql/query")

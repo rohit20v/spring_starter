@@ -1,9 +1,6 @@
 package it.objectmethod.esercizi.spring_starter.controller;
 
-import it.objectmethod.esercizi.spring_starter.dto.FilmActorDTO;
-import it.objectmethod.esercizi.spring_starter.dto.FilmDTO;
-import it.objectmethod.esercizi.spring_starter.dto.FilmRecord;
-import it.objectmethod.esercizi.spring_starter.dto.FilmUpdateDTO;
+import it.objectmethod.esercizi.spring_starter.dto.*;
 import it.objectmethod.esercizi.spring_starter.dto.FilmUpdateDTO.IgnoreId;
 import it.objectmethod.esercizi.spring_starter.service.FilmService;
 import it.objectmethod.esercizi.spring_starter.util.PaginationResponse;
@@ -45,6 +42,11 @@ public class FilmController {
     @GetMapping("record/category")
     public ResponseEntity<List<FilmRecord>> get(@RequestParam String genre) {
         return ResponseEntity.ok(filmService.getFilmsByGenre(genre));
+    }
+
+    @GetMapping("/allIdName")
+    public ResponseEntity<List<IdNameDTO>> getIdTitle() {
+        return ResponseEntity.ok(filmService.getFilmIdTitle());
     }
 
     @GetMapping("/complete")

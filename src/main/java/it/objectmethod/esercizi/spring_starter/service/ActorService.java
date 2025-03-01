@@ -5,7 +5,7 @@ import it.objectmethod.esercizi.spring_starter.dao.ActorSearchDAO;
 import it.objectmethod.esercizi.spring_starter.dto.ActorCompleteDTO;
 import it.objectmethod.esercizi.spring_starter.dto.ActorDTO;
 import it.objectmethod.esercizi.spring_starter.dto.ActorRecord;
-import it.objectmethod.esercizi.spring_starter.dto.IdNameActorDTO;
+import it.objectmethod.esercizi.spring_starter.dto.IdNameDTO;
 import it.objectmethod.esercizi.spring_starter.entity.Actor;
 import it.objectmethod.esercizi.spring_starter.mapper.ActorCompleteMapstruct;
 import it.objectmethod.esercizi.spring_starter.mapper.ActorMapper;
@@ -50,8 +50,8 @@ public class ActorService {
                         () -> notFoundException("Could not find actor on %s with id %d", Actor.class.getSimpleName(), id)));
     }
 
-    public List<IdNameActorDTO> getAllActorsIdAndName() {
-        return actorRepository.findAll(IdNameActorDTO.class);
+    public List<IdNameDTO> getAllActorsIdAndName() {
+        return actorRepository.findAll(IdNameDTO.class);
     }
 
     public List<ActorDTO> getAll() {
@@ -66,8 +66,8 @@ public class ActorService {
 //            size = (int) actorPage.getTotalElements();
 //        }
 
-        pageable = PageRequest.of(page, size);
-        actorPage = actorRepository.findAll(pageable);
+//        pageable = PageRequest.of(page, size);
+//        actorPage = actorRepository.findAll(pageable);
 
         Page<ActorDTO> actorDtoPage = actorPage.map(actorMapperWIthMapstruct::toDTO);
         return new PaginationResponse<>(actorDtoPage);
@@ -158,6 +158,7 @@ public class ActorService {
     }
 
     public void deleteActorById(Integer id) {
+        if (!actorRepository.existsById(id)) throw new NoSuchElementException("Actor with id: " + id + " does not exist");
         actorRepository.deleteById(id);
     }
 
