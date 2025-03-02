@@ -72,7 +72,7 @@ public class ActorController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<ActorDTO> addActor(@RequestBody @Validated ActorDTO actorDTO) {
+    public ResponseEntity<ActorDTO> addActor(@RequestBody @Validated({ActorDTO.ForPost.class}) ActorDTO actorDTO) {
         if (actorDTO == null) return ResponseEntity.badRequest().build();
         ActorDTO newDto = actorService.save(actorDTO);
         return ResponseEntity.ok(newDto);
@@ -128,6 +128,12 @@ public class ActorController {
     @GetMapping("/allInfo")
     public List<ActorCompleteDTO> getAllInfo() {
         return actorService.getEverything();
+    }
+
+    @JsonView({FilmDTO.BasicView.class})
+    @GetMapping("/allInfoById/{id}")
+    public ActorCompleteDTO getAllInfoById(@PathVariable Integer id) {
+        return actorService.getEverythingById(id);
     }
 
     @JsonView({FilmDTO.DetailedView.class})

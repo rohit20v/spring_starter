@@ -1,6 +1,5 @@
 package it.objectmethod.esercizi.spring_starter.service;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import it.objectmethod.esercizi.spring_starter.dao.ActorSearchDAO;
 import it.objectmethod.esercizi.spring_starter.dto.ActorCompleteDTO;
 import it.objectmethod.esercizi.spring_starter.dto.ActorDTO;
@@ -24,7 +23,6 @@ import java.util.*;
 
 import static it.objectmethod.esercizi.spring_starter.controller.controllerAdvice.BasicResponseException.badRequestException;
 import static it.objectmethod.esercizi.spring_starter.controller.controllerAdvice.BasicResponseException.notFoundException;
-import static it.objectmethod.esercizi.spring_starter.dto.FilmDTO.BasicView;
 
 @Service
 public class ActorService {
@@ -152,13 +150,20 @@ public class ActorService {
         return dtOs;
     }
 
-    @JsonView({BasicView.class})
     public List<ActorCompleteDTO> getEverything() {
         return actorCompleteMapstruct.mapToDtos(actorRepository.findAll());
     }
 
+    public ActorCompleteDTO getEverythingById(Integer id) {
+        return actorCompleteMapstruct.mapToDto(
+                actorRepository.findById(id).orElseThrow
+                        (() -> new NoSuchElementException(String.format("No actor with id: %d found", id)))
+        );
+    }
+
     public void deleteActorById(Integer id) {
-        if (!actorRepository.existsById(id)) throw new NoSuchElementException("Actor with id: " + id + " does not exist");
+        if (!actorRepository.existsById(id))
+            throw new NoSuchElementException("Actor with id: " + id + " does not exist");
         actorRepository.deleteById(id);
     }
 
