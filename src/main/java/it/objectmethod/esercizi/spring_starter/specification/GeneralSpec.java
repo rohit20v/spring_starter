@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GeneralSpec {
-    public static <T> Specification<T> findByAllParams(final Map<String, String> map) {
+    public static <T> Specification<T> findByAllParams(final Map<String, String> map, final Boolean useAnd) {
         return (root, query, cb) -> {
 
             List<Predicate> predicates = new ArrayList<>();
@@ -28,7 +28,8 @@ public class GeneralSpec {
                     }
                 }
             }
-            return cb.and(predicates.toArray(new Predicate[0]));
+            return useAnd ? cb.and(predicates.toArray(new Predicate[0])) : cb.or(predicates.toArray(new Predicate[0]));
+
         };
     }
 }

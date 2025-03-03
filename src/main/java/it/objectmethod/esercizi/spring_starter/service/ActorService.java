@@ -141,7 +141,7 @@ public class ActorService {
         try {
             dtOs = actorMapperWIthMapstruct.toDTOs(
                     actorRepository.findAll(
-                            GeneralSpec.findByAllParams(map)
+                            GeneralSpec.findByAllParams(map, true)
                     )
             );
         } catch (Exception e) {

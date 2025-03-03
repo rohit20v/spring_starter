@@ -34,10 +34,11 @@ public class FilmController {
         if (map.isEmpty()) return this.get();
         List<FilmDTO> queryResult = filmService.findByAllParams(map);
         if (queryResult == null || queryResult.isEmpty()) {
-            return new ResponseEntity<>("No director found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(Map.of("message", "No film found"), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(queryResult, HttpStatus.FOUND);
+        return ResponseEntity.ok(queryResult);
     }
+
 
     @GetMapping("record/category")
     public ResponseEntity<List<FilmRecord>> get(@RequestParam String genre) {
@@ -53,6 +54,17 @@ public class FilmController {
     public ResponseEntity<List<FilmActorDTO>> getWithActorDetails() {
         return ResponseEntity.ok(filmService.filmWithActorDetails());
     }
+
+    @GetMapping("/params/specs/all")
+    public ResponseEntity<?> getComplete(@RequestParam final Map<String, String> map) {
+        if (map.isEmpty()) return this.get();
+        List<FilmActorDTO> queryResult = filmService.findByFilteredParams(map);
+        if (queryResult == null || queryResult.isEmpty()) {
+            return new ResponseEntity<>(Map.of("message", "No film found"), HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(queryResult);
+    }
+
 
     @GetMapping("/all/page")
     public ResponseEntity<Page<FilmDTO>> getPages(

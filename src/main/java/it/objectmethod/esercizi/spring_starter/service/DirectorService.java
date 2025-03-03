@@ -93,7 +93,7 @@ public class DirectorService {
     public List<DirectorDTO> findByAllParams(Map<String, String> map) {
         return directorMapperWithMapstruct.toDTOs(
                 directorRepository.findAll(
-                        GeneralSpec.findByAllParams(map)
+                        GeneralSpec.findByAllParams(map, true)
                 )
         );
     }

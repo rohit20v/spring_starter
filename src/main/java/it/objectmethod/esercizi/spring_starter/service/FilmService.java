@@ -55,7 +55,7 @@ public class FilmService {
         return filmWithActorMapping.toDTOs(filmRepository.findAll());
     }
 
-    public List<IdNameDTO> getFilmIdTitle(){
+    public List<IdNameDTO> getFilmIdTitle() {
         return filmRepository.findAll(IdNameDTO.class);
     }
 
@@ -87,7 +87,11 @@ public class FilmService {
     }
 
     public List<FilmDTO> findByAllParams(Map<String, String> map) {
-        return filmMapperWithMapstruct.toDTOs(filmRepository.findAll(GeneralSpec.findByAllParams(map)));
+        return filmMapperWithMapstruct.toDTOs(filmRepository.findAll(GeneralSpec.findByAllParams(map, true)));
+    }
+
+    public List<FilmActorDTO> findByFilteredParams(Map<String, String> map) {
+        return filmWithActorMapping.toDTOs(filmRepository.findAll(GeneralSpec.findByAllParams(map, false)));
     }
 
     public List<FilmDTO> getFilmsUsingSpecificationDtoParams(FilmDTO filmDTO) {
@@ -144,7 +148,8 @@ public class FilmService {
     }
 
     public void delete(Integer id) {
-        if (!filmRepository.existsById(id)) throw new NoSuchElementException("The Film with id: " + id + " does not exist");
+        if (!filmRepository.existsById(id))
+            throw new NoSuchElementException("The Film with id: " + id + " does not exist");
         filmRepository.deleteById(id);
     }
 
