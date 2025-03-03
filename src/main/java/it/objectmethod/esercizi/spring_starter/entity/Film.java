@@ -38,6 +38,9 @@ public class Film {
     @JoinColumn(name = "id_director")
     private Director director;
 
+    @Column(name = "poster")
+    private String poster;
+
     //    @ToString.Exclude
     @ManyToMany(mappedBy = "films")
     private List<Actor> actor = new ArrayList<>();

@@ -33,6 +33,9 @@ public class FilmDTO {
     @JsonView({BasicView.class, DetailedView.class})
     private String category;
 
+    @JsonView({BasicView.class, DetailedView.class})
+    private String poster;
+
     @JsonView({DetailedView.class})
     private DirectorDTO director;
 

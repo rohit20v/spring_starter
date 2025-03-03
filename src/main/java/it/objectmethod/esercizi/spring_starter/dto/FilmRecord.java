@@ -7,6 +7,7 @@ import java.util.Date;
 public record FilmRecord(
         Integer id,
         String title,
+         String poster,
         Date date,
         String category,
 //        DirectorDTO director

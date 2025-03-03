@@ -28,6 +28,8 @@ public class FilmUpdateDTO {
     @PastOrPresent(groups = {Default.class, IgnoreId.class})
     private Date release_date;
 
+    private String poster;
+
     @NotEmpty(groups = {Default.class, IgnoreId.class})
     private String category;
 

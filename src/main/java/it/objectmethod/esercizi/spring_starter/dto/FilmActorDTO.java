@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+//@Builder(toBuilder = true)
 public class FilmActorDTO {
     private Integer id;
 
@@ -18,6 +19,8 @@ public class FilmActorDTO {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date release_date;
+
+    private String poster;
 
     private String category;
 
