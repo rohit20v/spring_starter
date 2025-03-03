@@ -14,6 +14,9 @@ public interface DirectorRepository extends JpaRepository<Director, Integer>, Jp
     @Query(value = "SELECT id, name FROM directors", nativeQuery = true)
     <T> List<T> getMeAll(Class<T> classCompiled);
 
+    @Query(value = "SELECT film.id, film.title from film inner join directors on film.id_director = directors.id WHERE directors.id = :id", nativeQuery = true)
+    <T> List<T> findFilmByDirectorId(Integer id, Class<T> classCompiled);
+
     interface Specs {
         static Specification<Director> findAllDirectorsWithFilteredName(String name) {
             return (root, query, criteriaBuilder) ->

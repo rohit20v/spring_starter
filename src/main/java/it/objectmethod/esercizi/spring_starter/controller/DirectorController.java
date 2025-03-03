@@ -58,10 +58,10 @@ public class DirectorController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteDirector(@PathVariable final Integer id) {
+    public ResponseEntity<Map<String, String>> deleteDirector(@PathVariable final Integer id) {
 //        if (id == null) return ResponseEntity.badRequest().build();
         directorService.deleteDirectorById(id);
-        return ResponseEntity.ok("Director deleted successfully");
+        return ResponseEntity.ok(Map.of("message", "Director deleted successfully"));
     }
 
     @PostMapping("/save")
@@ -100,6 +100,11 @@ public class DirectorController {
     @GetMapping("/page")
     public PaginationResponse<DirectorDTO> getInPage(@PageableDefault(size = 2) Pageable pageable) {
         return directorService.getDirectorPages(pageable);
+    }
+
+    @GetMapping("/filmsByDirectorId/{id}")
+    public ResponseEntity<List<IdNameDTO>> getMoviesByDirectorId(@PathVariable Integer id) {
+        return ResponseEntity.ok(directorService.getMoviesByDirectorId(id));
     }
 
     public interface PUT {

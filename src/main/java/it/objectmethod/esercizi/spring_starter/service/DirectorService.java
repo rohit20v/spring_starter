@@ -68,6 +68,8 @@ public class DirectorService {
     }
 
     public void deleteDirectorById(Integer id) {
+        if (!directorRepository.existsById(id))
+            throw new NoSuchElementException("Director with id: " + id + " does not exist");
         directorRepository.deleteById(id);
     }
 
@@ -100,5 +102,9 @@ public class DirectorService {
         if (!directorRepository.existsById(dto.getId()))
             throw new NoSuchElementException(String.format("Director with id '%d' does not exist", dto.getId()));
         return this.save(dto);
+    }
+
+    public List<IdNameDTO> getMoviesByDirectorId(Integer id) {
+        return this.directorRepository.findFilmByDirectorId(id, IdNameDTO.class);
     }
 }
