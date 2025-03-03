@@ -112,7 +112,7 @@ public class DirectorController {
         if (map.isEmpty()) return this.getAllDirectors();
         List<DirectorDTO> queryResult = directorService.findByFilteredParams(map);
         if (queryResult == null || queryResult.isEmpty()) {
-            return new ResponseEntity<>(Map.of("message", "No film found"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(Map.of("message", "No director found"), HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(queryResult);
     }
