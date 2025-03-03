@@ -65,6 +65,15 @@ public class FilmController {
         return ResponseEntity.ok(queryResult);
     }
 
+    @GetMapping("/params/specs/in")
+    public ResponseEntity<?> getCompleteIn(@RequestParam final Map<String, String> map) {
+        if (map.isEmpty()) return this.get();
+        List<FilmActorDTO> queryResult = filmService.findByFilteredParamsIn(map);
+        if (queryResult == null || queryResult.isEmpty()) {
+            return new ResponseEntity<>(Map.of("message", "No film found"), HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(queryResult);
+    }
 
     @GetMapping("/all/page")
     public ResponseEntity<Page<FilmDTO>> getPages(

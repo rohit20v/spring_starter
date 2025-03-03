@@ -107,4 +107,12 @@ public class DirectorService {
     public List<IdNameDTO> getMoviesByDirectorId(Integer id) {
         return this.directorRepository.findFilmByDirectorId(id, IdNameDTO.class);
     }
+
+    public List<DirectorDTO> findByFilteredParams(Map<String, String> map) {
+        return directorMapperWithMapstruct.toDTOs(
+                directorRepository.findAll(
+                        GeneralSpec.findByAllParams(map, false)
+                )
+        );
+    }
 }

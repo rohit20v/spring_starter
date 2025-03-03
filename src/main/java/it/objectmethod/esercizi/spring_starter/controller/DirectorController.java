@@ -107,6 +107,16 @@ public class DirectorController {
         return ResponseEntity.ok(directorService.getMoviesByDirectorId(id));
     }
 
+    @GetMapping("/params/specs/all")
+    public ResponseEntity<?> getComplete(@RequestParam final Map<String, String> map) {
+        if (map.isEmpty()) return this.getAllDirectors();
+        List<DirectorDTO> queryResult = directorService.findByFilteredParams(map);
+        if (queryResult == null || queryResult.isEmpty()) {
+            return new ResponseEntity<>(Map.of("message", "No film found"), HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(queryResult);
+    }
+
     public interface PUT {
 
     }

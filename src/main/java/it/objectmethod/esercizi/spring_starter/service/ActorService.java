@@ -178,4 +178,18 @@ public class ActorService {
     public ActorRecord getActorRecord(String city) {
         return actorRepository.findByCity(city, ActorRecord.class).orElseThrow(() -> notFoundException("Could not find actor in %s", Actor.class.getSimpleName(), city));
     }
+
+    public List<ActorDTO> findByFilteredParams(Map<String, String> map) {
+        List<ActorDTO> dtOs;
+        try {
+            dtOs = actorMapperWIthMapstruct.toDTOs(
+                    actorRepository.findAll(
+                            GeneralSpec.findByAllParams(map, false)
+                    )
+            );
+        } catch (Exception e) {
+            throw badRequestException("Parameter not found");
+        }
+        return dtOs;
+    }
 }

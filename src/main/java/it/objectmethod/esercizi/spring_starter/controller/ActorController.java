@@ -152,4 +152,14 @@ public class ActorController {
     public ResponseEntity<ActorRecord> getAR(@RequestParam String city) {
         return ResponseEntity.ok(actorService.getActorRecord(city));
     }
+
+    @GetMapping("/params/specs/all")
+    public ResponseEntity<?> getComplete(@RequestParam final Map<String, String> map) {
+        if (map.isEmpty()) return ResponseEntity.ok(this.getAll());
+        List<ActorDTO> queryResult = actorService.findByFilteredParams(map);
+        if (queryResult == null || queryResult.isEmpty()) {
+            return new ResponseEntity<>(Map.of("message", "No film found"), HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(queryResult);
+    }
 }

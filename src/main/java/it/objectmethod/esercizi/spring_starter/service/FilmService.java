@@ -94,6 +94,10 @@ public class FilmService {
         return filmWithActorMapping.toDTOs(filmRepository.findAll(GeneralSpec.findByAllParams(map, false)));
     }
 
+    public List<FilmActorDTO> findByFilteredParamsIn(Map<String, String> map) {
+        return filmWithActorMapping.toDTOs(filmRepository.findAll(GeneralSpec.findByAllParams(map, false)));
+    }
+
     public List<FilmDTO> getFilmsUsingSpecificationDtoParams(FilmDTO filmDTO) {
         return filmMapperWithMapstruct.toDTOs(filmRepository.findAll(FilmSpecs.findByAllColumns(filmDTO)));
     }
