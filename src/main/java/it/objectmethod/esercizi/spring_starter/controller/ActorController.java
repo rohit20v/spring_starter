@@ -158,7 +158,7 @@ public class ActorController {
         if (map.isEmpty()) return ResponseEntity.ok(this.getAll());
         List<ActorDTO> queryResult = actorService.findByFilteredParams(map);
         if (queryResult == null || queryResult.isEmpty()) {
-            return new ResponseEntity<>(Map.of("message", "No director found"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(Map.of("message", "No actor found"), HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(queryResult);
     }
