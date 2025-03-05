@@ -27,6 +27,6 @@ public class Director {
     private String city;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "director", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "director", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Film> films = new ArrayList<>();
 }
