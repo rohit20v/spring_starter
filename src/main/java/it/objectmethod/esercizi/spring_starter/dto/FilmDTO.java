@@ -41,7 +41,12 @@ public class FilmDTO {
 
     private List<Integer> actors;
 
-    public interface BasicView {}
-    public interface DetailedView {}
-    public interface Extra {}
+    public interface BasicView {
+    }
+
+    public interface DetailedView {
+    }
+
+    public interface Extra {
+    }
 }

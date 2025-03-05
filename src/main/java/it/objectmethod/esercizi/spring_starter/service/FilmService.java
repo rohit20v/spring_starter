@@ -66,6 +66,12 @@ public class FilmService {
         return new PaginationResponse<>(dtoPage);
     }
 
+    public PaginationResponse<FilmActorDTO> getCompleteCustomFilmPages(final Pageable pageable) {
+        Page<Film> filmPage = filmRepository.findAll(pageable);
+        Page<FilmActorDTO> dtoPage = filmPage.map(filmWithActorMapping::toDTO);
+        return new PaginationResponse<>(dtoPage);
+    }
+
     public Page<FilmDTO> getFilmPages(final Integer page, final Integer size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Film> filmPage = filmRepository.findAll(pageable);

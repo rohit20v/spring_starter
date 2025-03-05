@@ -6,6 +6,8 @@ import it.objectmethod.esercizi.spring_starter.service.FilmService;
 import it.objectmethod.esercizi.spring_starter.util.PaginationResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -114,6 +116,11 @@ public class FilmController {
             @RequestParam(required = false, defaultValue = "0") final Integer page,
             @RequestParam(required = false, defaultValue = "2") final Integer size) {
         return ResponseEntity.ok(filmService.getCustomFilmPages(page, size));
+    }
+
+    @GetMapping("/complete/page")
+    public ResponseEntity<PaginationResponse<FilmActorDTO>> getCompleteCustomPage(@PageableDefault(size = 4) final Pageable pageable) {
+        return ResponseEntity.ok(filmService.getCompleteCustomFilmPages(pageable));
     }
 
     @GetMapping("page/{id}")

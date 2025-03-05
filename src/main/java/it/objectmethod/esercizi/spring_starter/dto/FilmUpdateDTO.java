@@ -1,5 +1,6 @@
 package it.objectmethod.esercizi.spring_starter.dto;
 
+import it.objectmethod.esercizi.spring_starter.annotation.CheckPosterFormat;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -28,6 +29,7 @@ public class FilmUpdateDTO {
     @PastOrPresent(groups = {Default.class, IgnoreId.class})
     private Date release_date;
 
+    @CheckPosterFormat(groups = {Default.class, IgnoreId.class})
     private String poster;
 
     @NotEmpty(groups = {Default.class, IgnoreId.class})
