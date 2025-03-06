@@ -1,0 +1,16 @@
+services:
+  mariadb-service:
+    restart: always
+    image: mariadb
+    container_name: mariadb-compose
+    ports:
+      - '4444:3306'
+    environment:
+      MARIADB_ROOT_PASSWORD: 'mypass'
+      MARIADB_USER: 'root'
+    volumes:
+      - ../../sql/netflux.sql:/docker-entrypoint-initdb.d/netflux.sql
+      - mariadb_vol:/var/lib/mysql
+
+volumes:
+  mariadb_vol:
