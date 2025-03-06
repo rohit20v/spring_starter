@@ -6,9 +6,9 @@ import jakarta.validation.ConstraintValidatorContext;
 public class PosterFormatterChecker implements ConstraintValidator<CheckPosterFormat, String> {
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (value.isEmpty()){
+        if (value.isEmpty()) {
             return true;
         }
-        return (value.endsWith("png") || value.endsWith("jpg") || value.endsWith("webp") || value.endsWith("gif"));
+        return value.endsWith("png") || value.endsWith("jpg") || value.endsWith("webp") || value.endsWith("gif");
     }
 }

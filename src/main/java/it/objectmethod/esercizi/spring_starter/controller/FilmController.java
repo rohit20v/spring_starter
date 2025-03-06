@@ -41,7 +41,6 @@ public class FilmController {
         return ResponseEntity.ok(queryResult);
     }
 
-
     @GetMapping("record/category")
     public ResponseEntity<List<FilmRecord>> get(@RequestParam String genre) {
         return ResponseEntity.ok(filmService.getFilmsByGenre(genre));
