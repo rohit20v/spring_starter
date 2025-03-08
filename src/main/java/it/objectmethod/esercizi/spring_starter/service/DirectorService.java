@@ -75,8 +75,8 @@ public class DirectorService {
 
     public DirectorDTO save(DirectorDTO dto) {
         Director entity = directorMapperWithMapstruct.toEntity(dto);
-        directorRepository.save(entity);
-        return directorMapperWithMapstruct.toDTO(entity);
+        Director savedEntity = directorRepository.save(entity);
+        return directorMapperWithMapstruct.toDTO(savedEntity);
     }
 
     public List<DirectorDTO> findAllDirectorsFilteredUsingSpecs(DirectorDTO dto) {

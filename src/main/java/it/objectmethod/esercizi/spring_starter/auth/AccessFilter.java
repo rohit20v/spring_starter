@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static java.util.Collections.emptyList;
 
@@ -22,14 +21,14 @@ import static java.util.Collections.emptyList;
 @Order(1)
 public class AccessFilter extends OncePerRequestFilter {
     private static final String AUTH_ENDPOINT = "/api/auth";
-
-    private final JwtTokenProvider jwtTokenProvider;
-
+    private static final String ADMIN_ROLE = "1";
     private static final Map<String, String> ROLE_PATH_MAPPING = Map.of(
             "2", "/api/actor",
             "3", "/api/film",
             "4", "/api/director"
     );
+
+    private final JwtTokenProvider jwtTokenProvider;
 
     public AccessFilter(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
@@ -40,59 +39,76 @@ public class AccessFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         /*
-         * Used by front-ent to make sure that backend is working (operation of pre-flight)
-         * A preflight request is an automatic browser initiated OPTIONS request that takes
+         * [Original Comment Preserved]
+         * Used by front-end to make sure that backend is working (operation of pre-flight)
+         * A preflight request is an automatic browser initiated OPTIONS request that
          * occurs before certain cors-origin requests to ensure that backend/server is working,
          * so that server accepts the upcoming request method, header and credentials.
          */
-        String requestURI = request.getRequestURI() != null ? request.getRequestURI() : "";
-        String httpMethod = request.getMethod();
-
-        if (httpMethod.equalsIgnoreCase("OPTIONS")) {
+        if (isPreflightRequest(request)) {
             response.setStatus(HttpServletResponse.SC_OK);
             return;
         }
 
-        if (httpMethod.equalsIgnoreCase("GET") || requestURI.startsWith(AUTH_ENDPOINT)) {
+        if (isPublicEndpoint(request)) {
             filterChain.doFilter(request, response);
             return;
         }
 
+        String jwtToken = getJwtToken(request);
+        authenticate(jwtToken);
+
+        List<String> userRoles = extractUserRoles(jwtToken);
+
+        authorizeAccess(request, userRoles);
+
+        filterChain.doFilter(request, response);
+    }
+
+    private boolean isPreflightRequest(HttpServletRequest request) {
+        return "OPTIONS".equalsIgnoreCase(request.getMethod());
+    }
+
+    private boolean isPublicEndpoint(HttpServletRequest request) {
+        String requestURI = request.getRequestURI() != null ? request.getRequestURI() : "";
+        return "GET".equalsIgnoreCase(request.getMethod()) || requestURI.startsWith(AUTH_ENDPOINT);
+    }
+
+    private String getJwtToken(HttpServletRequest request) {
         final String jwtToken = request.getHeader("Authorization");
-        String roleClaim = "[]";
-
-        if (!Objects.isNull(jwtToken) && !jwtToken.isEmpty()) {
-            roleClaim = jwtTokenProvider.extractRoleFromClaims(jwtToken) ==
-                        null ? "[]" : jwtTokenProvider.extractRoleFromClaims(jwtToken);
+        if (jwtToken == null || jwtToken.isEmpty()) {
+            throw new UnauthorizedException("Missing authentication token", HttpStatus.UNAUTHORIZED);
         }
+        return jwtToken;
+    }
 
-        List<String> userRoles = roleClaim != null ?
-                Arrays.asList(roleClaim.split(",")) : emptyList();
-
-        System.out.println("roles -> " + roleClaim);
-        if (!requestURI.startsWith(AUTH_ENDPOINT)) {
-            if (Objects.isNull(jwtToken) || !isAuthenticated(jwtToken) || Objects.requireNonNull(roleClaim).equalsIgnoreCase("[]")) {
-                response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                return;
-            }
-        }
-
-        boolean isAllowed = userRoles.contains("1") ||  // Admin role
-                            userRoles.stream()
-                                    .anyMatch(r -> ROLE_PATH_MAPPING.containsKey(r) &&
-                                                   requestURI.startsWith(ROLE_PATH_MAPPING.get(r)));
-
-        if (isAllowed) {
-            filterChain.doFilter(request, response);
-        } else {
-            throw new UnauthorizedException("User is not allowed to perform this operations", HttpStatus.FORBIDDEN);
+    private void authenticate(String jwtToken) {
+        if (!jwtTokenProvider.isValid(jwtToken) || jwtTokenProvider.isTokenExpired(jwtToken)) {
+            throw new UnauthorizedException("User is not authenticated", HttpStatus.UNAUTHORIZED);
         }
     }
 
-    private Boolean isAuthenticated(final String jwtToken) {
-        if (!jwtTokenProvider.isValid(jwtToken) || jwtTokenProvider.isTokenExpired(jwtToken))
-            throw new UnauthorizedException("User is not authenticated", HttpStatus.UNAUTHORIZED);
+    private List<String> extractUserRoles(String jwtToken) {
+        String roleClaim = jwtTokenProvider.extractRoleFromClaims(jwtToken);
+        System.out.println("roles -> " + roleClaim);
+        return (roleClaim != null && !roleClaim.isEmpty()) ?
+                Arrays.asList(roleClaim.split(",")) :
+                emptyList();
+    }
 
-        return true;
+    private void authorizeAccess(HttpServletRequest request, List<String> userRoles) {
+        String requestURI = request.getRequestURI() != null ? request.getRequestURI() : "";
+
+        if (userRoles.contains(ADMIN_ROLE)) {
+            return;
+        }
+
+        boolean hasAccess = userRoles.stream()
+                .anyMatch(role -> ROLE_PATH_MAPPING.containsKey(role) &&
+                                  requestURI.startsWith(ROLE_PATH_MAPPING.get(role)));
+
+        if (!hasAccess) {
+            throw new UnauthorizedException("User is not allowed to perform this operation", HttpStatus.FORBIDDEN);
+        }
     }
 }
