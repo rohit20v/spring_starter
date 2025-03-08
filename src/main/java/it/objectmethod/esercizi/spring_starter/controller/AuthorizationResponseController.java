@@ -28,7 +28,7 @@ public class AuthorizationResponseController {
     @PostMapping("/signup")
     public ResponseEntity<Map<String, String>> signup(@RequestBody @Validated AuthorizationRequestDTO request) {
         AuthorizationRequestDTO save = authorizationResponseService.save(request);
-        return ResponseEntity.ok(Map.of("message", String.format("User: %s has been registered successfully", save.name())));
+        return ResponseEntity.ok(Map.of("message", String.format("User: %s has been registered successfully", save.getName())));
     }
 
     @GetMapping("allUsers")

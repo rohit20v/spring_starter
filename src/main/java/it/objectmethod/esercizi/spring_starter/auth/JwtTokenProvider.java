@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Classe responsabile della generazione e validazione dei token JWT.
@@ -53,6 +54,16 @@ public class JwtTokenProvider {
      */
     public String extractNameFromClaims(final String token) {
         return extractClaim(token, claims -> claims.get("name", String.class));
+    }
+
+    /**
+     * Estrae il valore associato alla chiave "role" dai claims del token JWT.
+     *
+     * @param token il token JWT da cui estrarre il nome
+     * @return il valore del campo "name" estratto dai claims del token
+     */
+    public String extractRoleFromClaims(final String token) {
+        return extractClaim(token, claims -> claims.get("role", String.class));
     }
 
     /**
@@ -100,8 +111,11 @@ public class JwtTokenProvider {
      */
     public String generateToken(final AuthorizationRequestDTO request) {
         final Map<String, String> claims = new HashMap<>();
-        claims.put("id", request.id().toString());
-        return createToken(claims, request.name());
+        claims.put("id", request.getId().toString());
+        claims.put("role", request.getRole().stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(",")));
+        return createToken(claims, request.getName());
     }
 
     /**

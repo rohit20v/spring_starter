@@ -11,7 +11,7 @@ import com.github.tomakehurst.wiremock.stubbing.ServeEvent;
 import com.github.tomakehurst.wiremock.stubbing.StubMapping;
 import io.restassured.http.ContentType;
 import it.objectmethod.esercizi.spring_starter.dto.auth.AuthenticationResponseDTO;
-import it.objectmethod.esercizi.spring_starter.dto.auth.AuthorizationRequestDTO;
+import it.objectmethod.esercizi.spring_starter.dto.auth.AuthorizationRequestRecordDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
@@ -82,7 +82,7 @@ public abstract class BaseIntegrationTest {
 
     @BeforeEach
     void setup() {
-        AuthorizationRequestDTO given = AuthorizationRequestDTO.builder()
+        AuthorizationRequestRecordDTO given = AuthorizationRequestRecordDTO.builder()
                 .name("rohit")
                 .email("boom.bam@gmail.co")
                 .build();

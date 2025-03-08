@@ -35,21 +35,21 @@ public class FilterExceptionHandler extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException e) {
-            handleException(response, "Token has expired");
+            handleException(response, "Token has expired", HttpStatus.UNAUTHORIZED);
         } catch (JwtException | IllegalArgumentException e) {
-            handleException(response, "Invalid or missing token");
+            handleException(response, "Invalid or missing token", HttpStatus.UNAUTHORIZED);
         } catch (UnauthorizedException e) {
-            handleException(response, e.getMessage());
+            handleException(response, e.getMessage(), e.getHttpStatus());
         }
     }
 
-    private void handleException(HttpServletResponse response, String message) throws IOException {
+    private void handleException(HttpServletResponse response, String message, HttpStatus status) throws IOException {
         ErrorBody errorBody = ErrorBody.builder()
                 .message(message)
                 .timestamp(Instant.now())
                 .build();
 
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setStatus(status.value());
         response.setContentType("application/json");
         response.getWriter().write(objectMapper.writeValueAsString(errorBody));
     }
