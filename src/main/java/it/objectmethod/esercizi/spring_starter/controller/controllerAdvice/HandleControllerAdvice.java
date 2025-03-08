@@ -1,5 +1,7 @@
 package it.objectmethod.esercizi.spring_starter.controller.controllerAdvice;
 
+import jakarta.persistence.EntityNotFoundException;
+import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -46,14 +48,31 @@ public class HandleControllerAdvice {
         return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    public ResponseEntity<ErrorBody> handleValidation(SQLIntegrityConstraintViolationException e) {
+    @ExceptionHandler({EntityNotFoundException.class})
+    public ResponseEntity<ErrorBody> handleValidation(EntityNotFoundException e) {
+        val i = e.getMessage().indexOf("y.");
+        String err = "Unable to find " + e.getMessage().substring(i + 2);
 
         final ErrorBody errorBody = ErrorBody.builder()
-                .message(e.getLocalizedMessage().contains("email") ? "User already exists" : e.getLocalizedMessage())
+                .message(err)
                 .timestamp(Instant.now())
                 .build();
         return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<ErrorBody> handleValidation(SQLIntegrityConstraintViolationException e) {
+        String invalidForeignKey = null;
+        if (e.getErrorCode() == 1452) {
+            invalidForeignKey = e.getMessage().substring(e.getMessage().indexOf("FOREIGN KEY"), e.getMessage().indexOf("REFERENCES"));
+        }
+        final ErrorBody errorBody = ErrorBody.builder()
+                .message(
+                        invalidForeignKey != null ?
+                                "Foreign key violation: Invalid" + invalidForeignKey :
+                                e.getLocalizedMessage().contains("email") ? "User already exists" : e.getLocalizedMessage())
+                .timestamp(Instant.now())
+                .build();
+        return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
+    }
 }
