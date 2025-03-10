@@ -6,7 +6,7 @@ elif [ "${1,,}" = "rm" ]; then
   docker stop "$2"
   docker rm "$2"
 
-elif [ "${1,,}" = "rm -v " ]; then
+elif [ "${1,,}" = "rm -v" ]; then
   echo "Removing container and its associated volumes"
   docker stop "$2"
   docker rm -v "$2" "$3"
