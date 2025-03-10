@@ -49,13 +49,33 @@ create table film_actor
 create index id_actor
     on film_actor (id_actor);
 
+
+create table role
+(
+    id   int auto_increment
+        primary key,
+    name varchar(255) unique not null,
+    constraint role_uk
+        unique (name)
+);
+
 create table users
 (
     id    int auto_increment
         primary key,
     name  varchar(255) not null,
     email varchar(255) not null,
-    constraint email_uk
-        unique (email)
+    constraint email_uk unique (email)
 );
 
+create table user_role
+(
+    id      int auto_increment
+        primary key,
+    id_user int not null,
+    id_role int not null,
+    constraint user_role_ibfk_1
+        foreign key (id_user) references users (id),
+    constraint user_role_ibfk_2
+        foreign key (id_role) references role (id)
+);
