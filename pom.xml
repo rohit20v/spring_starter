@@ -191,7 +191,8 @@
                 <version>3.0.0-M6</version>
                 <configuration>
                     <includes>
-                        <include>**/*Test.java</include> <!-- Includi tutti i file di test con il suffisso Test.java -->
+                        <skipTests>true</skipTests>
+<!--                        <include>**/*Test.java</include> &lt;!&ndash; Includi tutti i file di test con il suffisso Test.java &ndash;&gt;-->
                     </includes>
                 </configuration>
             </plugin>

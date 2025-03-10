@@ -12,5 +12,20 @@ services:
       - ../../sql/netflux.sql:/docker-entrypoint-initdb.d/netflux.sql
       - mariadb_vol:/var/lib/mysql
 
+  backend-service:
+    restart: always
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+    container_name: backend-compose
+    ports:
+      - '8080:8080'
+    depends_on:
+      - mariadb-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb-service:3306/netflux
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: mypass
+
 volumes:
   mariadb_vol:
