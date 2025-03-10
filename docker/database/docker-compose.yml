@@ -6,8 +6,8 @@ services:
     ports:
       - '4444:3306'
     environment:
-      MARIADB_ROOT_PASSWORD: 'mypass'
-      MARIADB_USER: 'root'
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_USER: ${MARIADB_USER}
     volumes:
       - ../../sql/netflux.sql:/docker-entrypoint-initdb.d/netflux.sql
       - mariadb_vol:/var/lib/mysql
@@ -23,9 +23,9 @@ services:
     depends_on:
       - mariadb-service
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb-service:3306/netflux
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: mypass
+      SPRING_DATASOURCE_URL: ${DB_URL}
+      SPRING_DATASOURCE_USERNAME: ${MARIADB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${MARIADB_ROOT_PASSWORD}
 
 volumes:
   mariadb_vol:

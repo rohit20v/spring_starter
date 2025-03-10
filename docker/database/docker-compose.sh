@@ -1,11 +1,12 @@
-read -p "Enter db username" username
-username=${username}
-
-read -p "Enter db password" password
-password=${password}
-
-read -p "Enter DB URL" url
-url=${url}
+#!/bin/bash
+read -p "Enter db username: " username
+read -sp "Enter db password: " password
+echo
+read -p "Enter DB URL: " url
 
 
-docker-compose up $url $username $password -d
+export MARIADB_USER=$username
+export MARIADB_ROOT_PASSWORD=$password
+export DB_URL=$url
+
+docker-compose up -d
