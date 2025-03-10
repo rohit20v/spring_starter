@@ -5,6 +5,7 @@ import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -55,6 +56,15 @@ public class HandleControllerAdvice {
 
         final ErrorBody errorBody = ErrorBody.builder()
                 .message(err)
+                .timestamp(Instant.now())
+                .build();
+        return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
+    public ResponseEntity<ErrorBody> handleValidation(HttpRequestMethodNotSupportedException e) {
+        final ErrorBody errorBody = ErrorBody.builder()
+                .message(e.getMessage())
                 .timestamp(Instant.now())
                 .build();
         return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
