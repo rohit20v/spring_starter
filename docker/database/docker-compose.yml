@@ -19,7 +19,7 @@ services:
       dockerfile: Dockerfile
     container_name: backend-compose
     ports:
-      - '8080:8080'
+      - '6969:8080'
     depends_on:
       - mariadb-service
     environment:
