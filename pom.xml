@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-<!--            dipendenza transversale -->
+            <!--            dipendenza transversale -->
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <dependency>
@@ -134,6 +134,14 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>it.objectmethod.esercizi.spring_starter.SpringStarterApplication</mainClass>
+                    <layout>JAR</layout>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
@@ -197,10 +205,10 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M6</version>
                 <configuration>
-                    <includes>
-                        <skipTests>true</skipTests>
+                    <skipTests>true</skipTests>
+<!--                    <includes>-->
 <!--                        <include>**/*Test.java</include> &lt;!&ndash; Includi tutti i file di test con il suffisso Test.java &ndash;&gt;-->
-                    </includes>
+<!--                    </includes>-->
                 </configuration>
             </plugin>
             <plugin>
